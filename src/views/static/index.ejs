@@ -2,27 +2,34 @@
 <html lang="en">
   <head>
     <% include ./partials/head.ejs %>
-    <% include ../static/partials/navbar.ejs %>
-    <% include ../static/partials/baseScripts.ejs %>
-    <% include ../static/partials/user.ejs %>
-    <% include ../static/partials/messages.ejs %>
+
+
+
+
   </head>
   <body>
 
-<!-- Page Content -->
+      <!-- Navigation -->
+      <% include ./partials/navbar.ejs %>
+
+
+      <!-- Page Content -->
       <main class="container">
-<!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
+
+        <!-- Jumbotron Header -->
+        <header class="jumbotron my-4">
           <h1 class="display-3">Welcome to Blocipedia</h1>
-          <p class="lead">An application for users to learn new information.</p>
-          <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
-      </header>
-<!-- Page Features -->
-      <section class="row text-center">
-      <section class="col-lg-4">
-      <h4 class="card-title">Information</h4>
-      <p class="card-text">Share your thoughts about subjects that are important to you.</p>
-      </section>
+          <p class="lead">An application for users to share information.</p>
+          <a href="#" class="btn btn-primary btn-lg">Sign up</a>
+        </header>
+
+        <!-- Page Features -->
+        <section class="row text-center">
+
+          <section class="col-lg-4">
+            <h4 class="card-title">Post</h4>
+            <p class="card-text">Share your thoughts about subjects that are important to you.</p>
+          </section>
 
           <section class="col-lg-4">
             <h4 class="card-title">Comment</h4>
@@ -39,5 +46,8 @@
 
       </main>
       <!-- /.container -->
+      <% include ./partials/baseScripts.ejs %>
+
+
     </body>
 </html>
