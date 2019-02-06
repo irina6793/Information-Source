@@ -7,11 +7,4 @@ appConfig.init(app,express);
 routeConfig.init(app);
 
 
-
-
-
-
-
-
-
 module.exports = app;
