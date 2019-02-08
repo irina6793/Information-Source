@@ -14,12 +14,13 @@
     "request": "^2.83.0"
   },
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "morgan": "^1.9.1",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.32.6",
-    "morgan": "^1.9.1"
+    "sequelize": "^4.32.6"
   }
 }
