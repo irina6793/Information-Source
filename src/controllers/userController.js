@@ -5,7 +5,7 @@ module.exports = {
   signup(req, res, next){
       res.render("user/signup", {title: "Signup"});
     },
-    create(req, res, next){
+  create(req, res, next){
   let newUser = {
     email: req.body.email,
     password: req.body.password,
