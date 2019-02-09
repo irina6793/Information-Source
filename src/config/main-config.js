@@ -4,6 +4,7 @@ const viewsFolder = path.join(__dirname, "..", "views");
 const logger = require('morgan');
 const flash = require("express-flash");
 const passportConfig = require("./passport-config");
+const session = require("express-session");
 
 module.exports = {
     init(app, express){

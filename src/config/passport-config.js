@@ -3,6 +3,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../db/models").User;
 const authHelper = require("../auth/helpers");
+const session = require("express-session");
 
 module.exports = {
   init(app){
