@@ -6,14 +6,12 @@ const logger = require('morgan');
 const flash = require("express-flash");
 const passportConfig = require("./passport-config");
 const session = require("express-session");
-const expressValidator = require('express-validator');
 
 module.exports = {
     init(app, express){
      app.set("views", viewsFolder);
      app.set("view engine", "ejs");
      app.use(bodyParser.urlencoded({ extended: true }));
-     app.use(expressValidator());
      app.use(session({
        secret: process.env.cookieSecret,
        resave: false,

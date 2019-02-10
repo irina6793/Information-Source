@@ -48,7 +48,7 @@ describe("#create()", () => {
      .catch((err) => {
 
 // #4
-      expect(err.message).toContain("Validation error: must be a valid email");
+      expect(err.message).toContain("Error: must be a valid email");
       done();
     });
   });
@@ -73,7 +73,7 @@ it("should not create a user with an email already taken", (done) => {
      done();
    })
    .catch((err) => {
-     expect(err.message).toContain("Validation error");
+     expect(err.message).toContain("Error");
      done();
    });
 
