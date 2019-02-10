@@ -10,6 +10,7 @@ module.exports = {
 
     return User.create({
       email: newUser.email,
+      username: newUser.username,
       password: hashedPassword
     })
     .then((user) => {

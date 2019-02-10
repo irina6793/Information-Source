@@ -17,13 +17,15 @@ module.exports = {
   create(req, res, next){
   let newUser = {
     email: req.body.email,
+    username: req.body.username,
     password: req.body.password,
     passwordConfirmation: req.body.passwordConfirmation
   };
    userQueries.createUser(newUser, (err, user) => {
      if(err){
+       console.log(err)
        req.flash("error", err);
-       res.redirect("/users/sign_up");
+       res.redirect("/user/sign_up");
      } else {
 
   passport.authenticate("local")(req, res, () => {
@@ -35,13 +37,13 @@ module.exports = {
 });
 },
   signInForm(req, res, next){
-    res.render("users/sign_in");
+    res.render("user/sign_in");
   },
   signIn(req, res, next){
     passport.authenticate("local")(req, res, function () {
       if(!req.user){
         req.flash("notice", "Sign in failed. Please try again.")
-        res.redirect("/users/sign_in");
+        res.redirect("/user/sign_in");
       } else {
         req.flash("notice", "You've successfully signed in!");
         res.redirect("/");
@@ -59,7 +61,7 @@ module.exports = {
         req.flash("notice", "No user found with that ID.");
         res.redirect("/");
       } else {
-        res.render("users/show", {...result});
+        res.render("user/show", {...result});
       }
   });
  }
