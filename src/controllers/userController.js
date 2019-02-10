@@ -6,10 +6,11 @@ module.exports = {
   signup(req, res, next){
       res.render("user/signup", {title: "Signup"});
     },
-  create(req, res, next){
+   create(req, res, next){
+
   let newUser = {
     email: req.body.email,
-    username: req.body.name,
+    username: req.body.username,
     password: req.body.password,
     passwordConfirmation: req.body.passwordConfirmation
   };
@@ -35,7 +36,7 @@ module.exports = {
   })
 }
 });
-},
+ },
   signInForm(req, res, next){
     res.render("user/sign_in");
   },
