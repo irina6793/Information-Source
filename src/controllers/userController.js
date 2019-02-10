@@ -7,8 +7,7 @@ module.exports = {
       res.render("user/signup", {title: "Signup"});
     },
    create(req, res, next){
-
-  let newUser = {
+   let newUser = {
     email: req.body.email,
     username: req.body.username,
     password: req.body.password,
@@ -31,6 +30,7 @@ module.exports = {
       text: 'and easy to do anywhere, even with Node.js',
       html: '<strong>and easy to do anywhere, even with Node.js</strong>',
     };
+        console.log("Sending message...");
     sgMail.send(msg);
     res.redirect("/");
   })
