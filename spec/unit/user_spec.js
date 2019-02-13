@@ -2,12 +2,10 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const User = require("../../src/db/models").User;
 
 describe("User", () => {
-
-beforeEach((done) => {
-// #1
-  sequelize.sync({force: true})
-    .then(() => {
-    done();
+   beforeEach((done) => {
+      sequelize.sync({force: true})
+       .then(() => {
+        done();
   })
     .catch((err) => {
      console.log(err);
@@ -16,14 +14,13 @@ beforeEach((done) => {
 });
 
 describe("#create()", () => {
-// #2
     it("should create a User object with a valid email and password", (done) => {
       User.create({
-        email: "user@example.com",
-        password: "1234567890"
+        email: "irina67@yahoo.com",
+        password: "hello"
       })
       .then((user) => {
-        expect(user.email).toBe("user@example.com");
+        expect(user.email).toBe("irina67@yahoo.com");
         expect(user.id).toBe(1);
         done();
       })
@@ -37,7 +34,7 @@ describe("#create()", () => {
    it("should not create a user with invalid email or password", (done) => {
      User.create({
        email: "It's-a me, Mario!",
-       password: "1234567890"
+       password: "hello"
      })
      .then((user) => {
        // The code in this block will not be evaluated since the validation error
@@ -57,8 +54,8 @@ it("should not create a user with an email already taken", (done) => {
 
 // #5
    User.create({
-     email: "user@example.com",
-     password: "1234567890"
+     email: "irina67@yahoo.com",
+     password: "hello"
    })
    .then((user) => {
 
