@@ -6,9 +6,8 @@
 <body>
   <% include ../static/partials/navbar.ejs %>
 <main class="container">
-  <% include ../static/partials/messages.ejs %>
 <h1>Sign in</h1>
-   <form action="/user/sign_in" method="post">
+   <form action="/users/sign_in" method="post">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
