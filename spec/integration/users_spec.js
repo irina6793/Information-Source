@@ -27,26 +27,22 @@ describe("GET /users/sign_up", () => {
   });
  });
 
- describe("POST /users", () => {
- // #1
+describe("POST /users", () => {
     it("should create a new user with valid values and redirect", (done) => {
-
       const options = {
         url: base,
         form: {
-          email: "user@example.com",
-          password: "123456789"
+          email: "irina67@yahoo.com",
+          password: "hello"
         }
       }
-
       request.post(options,
         (err, res, body) => {
 
-  // #2
-       User.findOne({where: {email: "user@example.com"}})
+       User.findOne({where: {email: "irina67@yahoo.com"}})
        .then((user) => {
          expect(user).not.toBeNull();
-         expect(user.email).toBe("user@example.com");
+         expect(user.email).toBe("irina67@yahoo.com");
          expect(user.id).toBe(1);
          done();
        })
@@ -58,14 +54,13 @@ describe("GET /users/sign_up", () => {
    );
  });
 
- // #3
- it("should not create a new user with invalid attributes and redirect", (done) => {
+it("should not create a new user with invalid attributes and redirect", (done) => {
    request.post(
      {
        url: base,
        form: {
          email: "no",
-         password: "123456789"
+         password: "hello"
        }
      },
      (err, res, body) => {
@@ -82,4 +77,69 @@ describe("GET /users/sign_up", () => {
    );
  });
  });
+
+describe("GET /users/sign_in", () => {
+   it("should render a view with a sign in form", (done) => {
+     request.get(`${base}sign_in`, (err, res, body) => {
+       expect(err).toBeNull();
+       expect(body).toContain("Sign in");
+       done();
+     });
+   });
+  });
+
+describe("POST /users/sign_in", () => {
+     it("should create a new user with valid values and redirect", (done) => {
+        const options = {
+         url: base,
+         form: {
+           email: "irina67@yahoo.com",
+           password: "hello"
+         }
+       }
+        request.post(options,
+         (err, res, body) => {
+
+        User.findOne({where: {email: "irina67@yahoo.com"}})
+        .then((user) => {
+          expect(user).not.toBeNull();
+          expect(user.email).toBe("irina67@yahoo.com");
+          expect(user.id).toBe(1);
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      }
+    );
+  });
+  it("should not create a new user with invalid attributes and redirect", (done) => {
+    request.post(
+      {
+        url: base,
+        form: {
+          email: "no",
+          password: "hello"
+        }
+      },
+      (err, res, body) => {
+        User.findOne({where: {email: "no"}})
+        .then((user) => {
+          expect(user).toBeNull();
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      }
+    );
+  });
+});
+
+
+
+
+
 });
