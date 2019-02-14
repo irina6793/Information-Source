@@ -4,7 +4,7 @@ const base = "http://localhost:3000/users/";
 const User = require("../../src/db/models").User;
 const sequelize = require("../../src/db/models/index").sequelize;
 
-describe("routes : users", () => {
+describe("routes : user", () => {
     beforeEach((done) => {
         sequelize.sync({force: true})
            .then(() => {
@@ -16,7 +16,7 @@ describe("routes : users", () => {
     });
   });
 
-describe("GET /users/sign_up", () => {
+describe("GET /user/sign_up", () => {
   it("should render a view with a sign up form", (done) => {
     request.get(`${base}sign_up`, (err, res, body) => {
       expect(err).toBeNull();
@@ -26,7 +26,7 @@ describe("GET /users/sign_up", () => {
   });
  });
 
-describe("POST /users", () => {
+describe("POST /user", () => {
     it("should create a new user with valid values and redirect", (done) => {
       const options = {
         url: base,
