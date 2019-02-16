@@ -65,22 +65,20 @@ edit(req, res, next){
  });
 },
 update(req, res, next){
-// #1
-   topicQueries.updateTopic(req, req.body, (err, topic) => {
-   if(err || topic == null){
-      res.redirect(404, `/topics/${req.params.id}/edit`);
+   wikiQueries.updateWiki(req, req.body, (err, wiki) => {
+   if(err || wiki == null){
+      res.redirect(404, `/wikis/${req.params.id}/edit`);
     } else {
-      res.redirect(`/topics/${req.params.id}`);
+      res.redirect(`/wikis/${req.params.id}`);
     }
   });
 },
 destroy(req, res, next){
-// #1
-  topicQueries.deleteTopic(req, (err, topic) => {
+  wikiQueries.deleteWiki(req, (err, wiki) => {
     if(err){
-      res.redirect(500, `/topics/${req.params.id}`)
+      res.redirect(500, `/wikis/${req.params.id}`)
     } else {
-      res.redirect(303, "/topics")
+      res.redirect(303, "/wikis")
     }
   });
  }
