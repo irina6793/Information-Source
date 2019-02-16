@@ -11,10 +11,10 @@
 
            <ul class="list-group">
      <!-- #1 -->
-             <% wikis.forEach((wiki) => { %>
+             <% wiki.forEach((wiki) => { %>
      <!-- #2 -->
                <li class="list-group-item">
-                 <a href="/wiki/<%= wiki.id %>"> <%= wikis.title %> </a>
+                 <a href="/wiki/<%= wiki.id %>"> <%= wiki.title %> </a>
                </li>
              <% }) %>
            </ul>
