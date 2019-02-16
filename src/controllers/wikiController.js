@@ -1,9 +1,7 @@
 const wikiQueries = require("../db/queries.wiki.js");
-const userQueries = require("../db/queries.users.js");
 
 module.exports = {
-
-  index(req, res, next) {
+    index(req, res, next) {
       WikiQueries.getAllWikis((err, wiki) => {
         if(err){
          res.redirect(500, "static/index");
@@ -13,51 +11,59 @@ module.exports = {
     })
   },
    new(req, res, next){
-      if(authorized) {
-      res.render("wikis/new");
-   } else {
-     req.flash("error", err);
-     res.redirect("/wiki/");
-   }
+      res.render("wiki/new");
   },
-
    create(req, res, next){
-   wikiQueries.createWiki(newWiki, (err, user) => {
-     if(err){
-       req.flash("error", err);
-       res.redirect("/wiki/");
-     } else {
-       res.redirect("/wiki/");
+      let newWiki= {
+           title: req.body.title,
+           description: req.body.description
+         };
+         wikiQueries.addWiki(newWiki, (err, wiki) => {
+           if(err){
+             res.redirect(500, "/wiki/new");
+           } else {
+             res.redirect(303, `/wiki/${wiki.id}`);
+           }
+         })
+       },
+
+    show(req, res, next){
+        wikiQueries.getWiki(req.params.id, (err, wiki) => {
+        if(err || wiki == null){
+           res.redirect(404, "/");
+       } else {
+           res.render("wiki/show", {wiki});
+        }
+       })
+     },
+
+     destroy(req, res, next){
+       wikiQueries.deleteWiki(req.params.id, (err, wiki) => {
+         if(err){
+           res.redirect(500, `/wiki/${wiki.id}`)
+         } else {
+           res.redirect(303, "/wiki")
+         }
+       });
+     },
+
+     edit(req, res, next){
+       wikiQueries.getWiki(req.params.id, (err, wiki) => {
+         if(err || wiki == null){
+           res.redirect(404, "/");
+         } else {
+           res.render("wiki/edit", {wiki});
+        }
+      })
+     },
+
+     update(req, res, next){
+       wikiQueries.updateWiki(req.params.id, req.body, (err, wiki) => {
+         if(err || wiki == null){
+           res.redirect(404, `/wiki/${req.params.id}/edit`);
+         } else {
+           res.redirect(`/wiki/${wiki.id}`);
+         }
+       });
+     }
    }
- })
- },
-  update(req, res, next){
-    res.render("wiki/update");
-  },
-  update(req, res, next){
-    passport.authenticate("local")(req, res, function () {
-      if(!req.user){
-        req.flash("notice", "Update failed. Please try again.")
-        res.redirect("/wiki/update");
-      } else {
-        req.flash("notice", "You've successfully updated!");
-        res.redirect("/");
-      }
-    })
-  },
-  destroy(req, res, next){
-    req.logout();
-    req.flash("notice", "You've successfully deleted the wiki!");
-    res.redirect("/");
-  },
-  show(req, res, next){
-    wikiQueries.getWiki(req.params.id, (err, result) => {
-      if(err || result.wiki === undefined){
-        req.flash("notice", "No user found with that ID.");
-        res.redirect("/");
-      } else {
-        res.render("wiki/show", {...result});
-      }
-  });
- }
-}
