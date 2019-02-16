@@ -3,50 +3,43 @@ const Wiki = require("../../src/db/models").Wiki;
 const User = require("../../src/db/models").User;
 
 describe("Wiki", () => {
-   beforeEach((done) => {
-      sequelize.sync({force: true})
-       .then(() => {
-        done();
-  })
-    .catch((err) => {
-     console.log(err);
-     done();
-   });
-});
 
-describe("#create()", () => {
-    it("should create a Wiki object with a valid email and password", (done) => {
-      Wiki.create({
-        title: "The Struggles and Adventures",
-        body: "The difficulty in money management and travel"
-      })
-      .then((wiki) => {
-        expect(wiki.title).toBe("The Struggles and Adventures");
-        expect(wiki.body.toBe("The difficulty in money management and travel");
-        done();
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
+  beforeEach((done) => {
+       this.wiki = this.wiki;
+       sequelize.sync({force: true}).then((res) => {
+
+        User.create({
+
+          email: "dasha@gmail.com",
+          password: "new"
+        }).then((user) => {
+          Wiki.create({
+            title: "Expeditions to Mount Everest",
+            description: "The adventures in the tallest mountain in the world",
+          }),
+
+        }).then((wiki) => {
+              this.wiki = wiki;
+              done();
+          })
+        })
       });
-    });
+  });
+    describe("#create()", () => {
+        it("should create a wiki object with a title, and body", (done) => {
+        Wiki.create({
+          title: "Best parts of the adventure",
+          description: "Awesomens",
 
-   it("should not create a wiki with missing title and body", (done) => {
-     Wiki.create({
-       title: "The Struggles and Adventures",
-       body: "The difficulty in money management and travel"
-     })
-     .then((wiki) => {
-       // The code in this block will not be evaluated since the validation error
-       // will skip it. Instead, we'll catch the error in the catch block below
-       // and set the expectations there.
-       done();
-     })
-     .catch((err) => {
+     }).then((wiki) => {
+      expect(wiki.title).toBe("Best parts of the adventure");
 
-// #4
-      expect(err.message).toContain("Error: must be a valid email");
+      //expect(topic.topicId).toBe(this.topic.id);
       done();
+    }).catch((err) => {
+       console.log(err);
+       done();
+     });
     });
   });
 });
