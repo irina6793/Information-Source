@@ -13,12 +13,14 @@ module.exports = {
     })
   },
 
-
-
-
-
-
-
+  new(req, res, next){
+    if(authorized) {
+      res.render("wikis/new");
+   } else {
+     req.flash("error", err);
+     res.redirect("/wiki/");
+   }
+  },
 
    create(req, res, next){
    wikiQueries.createWiki(newWiki, (err, user) => {
