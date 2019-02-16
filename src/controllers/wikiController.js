@@ -12,9 +12,8 @@ module.exports = {
       }
     })
   },
-
-  new(req, res, next){
-    if(authorized) {
+   new(req, res, next){
+      if(authorized) {
       res.render("wikis/new");
    } else {
      req.flash("error", err);

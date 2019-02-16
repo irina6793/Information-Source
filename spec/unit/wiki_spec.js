@@ -31,7 +31,6 @@ describe("#create()", () => {
       });
     });
 
-// #3
    it("should not create a wiki with missing title and body", (done) => {
      Wiki.create({
        title: "The Struggles and Adventures",

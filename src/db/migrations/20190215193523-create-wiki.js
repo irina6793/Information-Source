@@ -29,7 +29,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      }
+      },
+      userId: {
+          type: Sequelize.INTEGER,
+          onDelete: "CASCADE",
+          allowNull: false,
+          references: {
+              model: "User",
+              key: "id",
+              as: "userId"
+          }
+        }
     });
   },
   down: (queryInterface, Sequelize) => {
