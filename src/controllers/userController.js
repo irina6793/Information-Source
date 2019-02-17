@@ -1,18 +1,24 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wiki.js");
 const passport = require("passport");
 const sgMail = require('@sendgrid/mail');
+const express = require('express');
+const router = express.Router();
 
 module.exports = {
+
   signup(req, res, next){
       res.render("user/signup", {title: "Signup"});
     },
-   create(req, res, next){
+
+  create(req, res, next){
    let newUser = {
     email: req.body.email,
     username: req.body.username,
     password: req.body.password,
     passwordConfirmation: req.body.passwordConfirmation
   };
+
    userQueries.createUser(newUser, (err, user) => {
      if(err){
        console.log(err)
@@ -40,6 +46,7 @@ module.exports = {
   signInForm(req, res, next){
     res.render("user/sign_in");
   },
+
   signIn(req, res, next){
     passport.authenticate("local")(req, res, function () {
       if(!req.user){
@@ -51,11 +58,13 @@ module.exports = {
       }
     })
   },
+
   signOut(req, res, next){
     req.logout();
     req.flash("notice", "You've successfully signed out!");
     res.redirect("/");
   },
+
   show(req, res, next){
     userQueries.getUser(req.params.id, (err, result) => {
       if(err || result.user === undefined){
