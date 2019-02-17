@@ -8,18 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-       username: {
-          allowNull: false,
-          type: Sequelize.STRING
-      },
        email: {
+           type: Sequelize.STRING,
            allowNull: false,
            unique: true,
-        validate: {
+          validate: {
             isEmail: { msg: "must be a valid email" },
-         },
-           type: Sequelize.STRING
-       },
+         }
+      },
       password: {
         allowNull: false,
         type: Sequelize.STRING
