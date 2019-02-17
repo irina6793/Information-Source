@@ -24,7 +24,7 @@ describe("routes : wiki", () => {
     });
  });
 
-describe("GET /wiki", () => {
+describe("GET /wikis", () => {
      it("should respond with all wiki", (done) => {
          request.get(base, (err, res, body) => {
                  expect(err).toBeNull();
@@ -35,7 +35,7 @@ describe("GET /wiki", () => {
        });
     });
 
-describe("GET /wiki/new", () => {
+describe("GET /wikis/new", () => {
     it("should render a view with a new wiki form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
                 expect(err).toBeNull();
@@ -131,4 +131,3 @@ describe("POST /wiki/:id/update", () => {
              });
        });
    });
-  
