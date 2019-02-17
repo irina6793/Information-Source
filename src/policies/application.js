@@ -27,7 +27,6 @@ show() {
   return true;
 }
 
-// #4
 edit() {
   return this.new() &&
   this.record && (this._isOwner() || this._isAdmin());
@@ -37,7 +36,6 @@ update() {
   return this.edit();
 }
 
-// #5
 destroy() {
   return this.update();
 }

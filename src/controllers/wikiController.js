@@ -12,7 +12,8 @@ module.exports = {
   })
  },
  new(req, res, next){
- if(authorized) {
+   const authorized = new Authorizer(req.user).new();
+   if(authorized) {
    res.render("wikis/new");
  } else {
    req.flash("notice", "You are not authorized to do that.");
@@ -20,7 +21,8 @@ module.exports = {
  }
 },
   create(req, res, next){
-  if(authorized) {
+    const authorized = new Authorizer(req.user).create();
+    if(authorized) {
     let newWiki = {
       title: req.body.title,
       description: req.body.description
@@ -52,7 +54,8 @@ edit(req, res, next){
     if(err || wiki == null){
       res.redirect(404, "/");
     } else {
-   if(authorized){
+      const authorized = new Authorizer(req.user, topic).edit();
+      if(authorized){
       res.render("wikis/edit", {wiki});
     } else {
       req.flash("You are not authorized to do that.")
