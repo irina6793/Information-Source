@@ -1,22 +1,11 @@
 module.exports = class ApplicationPolicy {
 
-constructor(user, record) {
+constructor(user) {
   this.user = user;
-  this.record = record;
 }
-
-
-_isOwner() {
-  return this.record && (this.record.userId == this.user.id);
-}
-
-_isAdmin() {
-  return this.user && this.user.role == "admin";
-}
-
 
 new() {
-  return this.user != null;
+  return this.new();
 }
 
 create() {
@@ -28,8 +17,7 @@ show() {
 }
 
 edit() {
-  return this.new() &&
-  this.record && (this._isOwner() || this._isAdmin());
+  return this.new();
 }
 
 update() {

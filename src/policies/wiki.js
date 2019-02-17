@@ -1,9 +1,9 @@
 const ApplicationPolicy = require("./application");
 
-module.exports = class TopicPolicy extends ApplicationPolicy {
+module.exports = class WikiPolicy extends ApplicationPolicy {
 
 new() {
-  return this._isAdmin();
+  return this.new();
 }
 
 create() {
@@ -11,7 +11,7 @@ create() {
 }
 
 edit() {
-  return this._isAdmin();
+  return this.new();
 }
 
 update() {
