@@ -5,16 +5,16 @@ const Wiki = require("../../src/db/models").Wiki;
 const User = require("../../src/db/models").User;
 const sequelize = require("../../src/db/models/index").sequelize;
 
-describe("routes : wiki", () => {
-   beforeEach((done) => { // before each context
-        this.wiki;   // define variables and bind to context
-        sequelize.sync({ force: true }).then(() => {  // clear database
+describe("routes : wikis", () => {
+   beforeEach((done) => {
+        this.wiki;
+        sequelize.sync({ force: true }).then(() => {
      Wiki.create({
           title: "Impeach Trump",
-          description: "Trump needs to get impeached for the Russia collusion"
+          body: "Trump needs to get impeached for the Russia collusion"
     })
-         .then((res) => {
-            this.wiki = res;  // store resulting topic in context
+         .then((wiki) => {
+            this.wiki = wiki;
           done();
     })
          .catch((err) => {
@@ -25,12 +25,12 @@ describe("routes : wiki", () => {
  });
 
 describe("GET /wikis", () => {
-     it("should respond with all wiki", (done) => {
+     it("should return a status code 200 and all wikis", (done) => {
          request.get(base, (err, res, body) => {
-                 expect(err).toBeNull();
-                 expect(body).toContain("Impeach Trump");
-                 expect(body).toContain("Mueller investigation");
-                 done();
+           expect(res.statusCode).toBe(200);
+           expect(err).toBeNull();
+           expect(body).toContain("Impeach Trump");
+           done();
             });
        });
     });
@@ -45,33 +45,33 @@ describe("GET /wikis/new", () => {
              });
            });
 
-describe("POST /wiki/create", () => {
+describe("POST /wikis/create", () => {
      const options = {
           url: `${base}create`,
               form: {
                  title: "Naional Emergency",
-                 description: "Abuse of power"
+                 body: "Abuse of power"
               }
           };
-   it("should create a new wiki and redirect", (done) => {
-        request.post(options,
-            (err, res, body) => {
+it("should create a new wiki and redirect", (done) => {
+    request.post(options,
+      (err, res, body) => {
         Wiki.findOne({where: {title: "National Emergency"}})
-             .then((topic) => {
-              expect(topic.title).toBe("National Emergency");
-              expect(topic.description).toBe("Abuse of power");
-               done();
-           })
-             .catch((err) => {
-                console.log(err);
-               done();
+            .then((wiki) => {
+             expect(wiki.title).toBe("National Emergency");
+             expect(wiki.body).toBe("Abuse of power");
+             done();
+          })
+            .catch((err) => {
+             console.log(err);
+             done();
            });
         }
        );
      });
    })
 
-describe("GET /wiki/:id", () => {
+describe("GET /wikis/:id", () => {
        it("should render a view with the selected wiki", (done) => {
            request.get(`${base}${this.wiki.id}`, (err, res, body) => {
             expect(err).toBeNull();
@@ -81,17 +81,17 @@ describe("GET /wiki/:id", () => {
       });
    });
 
-describe("POST /wiki/:id/destroy", () => {
+describe("POST /wikis/:id/destroy", () => {
     it("should delete the wiki with the associated ID", (done) => {
         Wiki.all()
-             .then((wiki) => {
-              const wikiCountBeforeDelete = wiki.length;
+             .then((wikis) => {
+              const wikiCountBeforeDelete = wikis.length;
               expect(wikiCountBeforeDelete).toBe(1);
                      request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
         Wiki.all()
-             .then((wiki) => {
+             .then((wikis) => {
               expect(err).toBeNull();
-              expect(wiki.length).toBe(wikiCountBeforeDelete - 1);
+              expect(wikis.length).toBe(wikiCountBeforeDelete - 1);
               done();
             })
           });
@@ -99,32 +99,32 @@ describe("POST /wiki/:id/destroy", () => {
       });
    });
 
-describe("GET /wiki/:id/edit", () => {
+describe("GET /wikis/:id/edit", () => {
      it("should render a view with an edit wiki form", (done) => {
-          request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
-              expect(err).toBeNull();
-              expect(body).toContain("Edit Wiki");
-              expect(body).toContain("Impeach Trump");
-             done();
-          });
+        request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
+            expect(err).toBeNull();
+            expect(body).toContain("Edit Wiki");
+            expect(body).toContain("Impeach Trump");
+            done();
         });
+      });
    });
 
-describe("POST /wiki/:id/update", () => {
+describe("POST /wikis/:id/update", () => {
      it("should update the wiki with the given values", (done) => {
         request.post({
-           url: `${base}${this.topic.id}/update`,
+           url: `${base}${this.wiki.id}/update`,
               form: {
               title: "Impeach Trump",
-              description: "There are a lot of them"
+              body: "There are a lot of them"
            }
          }, (err, res, body) => {
              expect(err).toBeNull();
                  Wiki.findOne({
                    where: {id:1}
                  })
-                 .then((topic) => {
-                   expect(topic.title).toBe("Impeach Trump");
+                 .then((wiki) => {
+                   expect(wiki.title).toBe("Impeach Trump");
                    done();
                  });
                });
