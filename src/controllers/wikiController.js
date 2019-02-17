@@ -1,10 +1,10 @@
 const wikiQueries = require("../db/queries.wiki.js");
+const Authorizer = require("../policies/wiki");
 
 module.exports = {
   index(req, res, next){
     wikiQueries.getAllWikis((err, wikis) => {
     if(err){
-          console.log("ERROR:", err);
     res.redirect(500, "static/index");
   } else {
     res.render("wikis/index", {wikis});
