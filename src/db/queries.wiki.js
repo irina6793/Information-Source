@@ -3,10 +3,10 @@ const User =  require("./models").User;
 
 module.exports = {
 
-  addWiki(newWiki, callback){
-    return Wiki.create(newWiki)
-    .then((wiki) => {
-      callback(null, wiki);
+  getAllWikis(callback){
+    return Wiki.all()
+    .then((wikis) => {
+      callback(null, wikis);
     })
     .catch((err) => {
       callback(err);
@@ -18,42 +18,91 @@ module.exports = {
       include: [
           {model: User }
         ]
-    })
+     })
     .then((wiki) => {
       callback(null, wiki);
-  })
-  .catch((err) => {
-    callback(err);
-   })
+    })
+      .catch((err) => {
+       callback(err);
+    })
   },
 
-  deleteWiki(id, callback){
-    return Wiki.destroy({
-      where: { id  }
+  addWiki(newWiki, callback){
+    return Wiki.create({
+      title: newWiki.title,
+      description: newWiki.description
+     })
+    .then((wiki) => {
+      callback(null, wiki);
     })
-    .then((deletedRecordsCount) => {
-      callback(null, deletedRecordsCount);
-    })
-    .catch((err) => {
+   .catch((err) => {
       callback(err);
     })
   },
-
-  updateWiki(id, updatedWiki, callback){
-    return Wiki.findById(id)
+   updateWiki(req, updatedWiki, callback){
+    return Wiki.findById(req.params.id)
     .then((wiki) => {
       if(!wiki){
         return callback("Wiki not found");
-     }
-     wiki.update(updatedWiki, {
-       fields: Object.keys(updatedWiki)
-     })
-     .then(() => {
-       callback(null, wiki);
-     })
-     .catch((err) => {
-       callback(err);
-     });
+      }
+      const authorized = new Authorizer(req.user, wiki).update();
+      if(authorized) {
+        wiki.update(updatedWiki, {
+          fields: Object.keys(updatedWiki)
+      })
+      .then(() => {
+        callback(null, wiki);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+    } else {
+      req.flash("notice", "You are not authorized to do that.");
+      callback("Forbidden");
+    }
    });
-  }
+  },
+
+  deleteWiki(req, callback){
+  return Wiki.findById(req.params.id)
+  .then((wiki) => {
+
+   const authorized = new Authorizer(req.user, wiki).destroy();
+   if(authorized) {
+
+   wiki.destroy()
+   .then((res) => {
+     callback(null, wiki);
+   });
+ } else {
+
+req.flash("notice", "You are not authorized to do that.")
+callback(401);
+}
+})
+.catch((err) => {
+  callback(err);
+});
+},
+validateWiki(req, res, next) {
+
+if(req.method === "POST") {
+
+req.checkParams("wikiId", "must be valid").notEmpty().isInt();
+req.checkDescription("title", "must be at least 5 characters in length").isLength({min: 5});
+req.checkDescription("description", "must be at least 10 characters in length").isLength({min: 10});
+}
+
+
+const errors = req.validationErrors();
+
+if (errors) {
+
+
+req.flash("error", errors);
+return res.redirect(303, req.headers.referer)
+} else {
+return next();
+}
+}
 }

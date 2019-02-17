@@ -1,5 +1,5 @@
 const wikiQueries = require("../db/queries.wiki.js");
-const Authorizer = require("../policies/topic");
+const Authorizer = require("../policies/wiki");
 
 module.exports = {
   index(req, res, next){
