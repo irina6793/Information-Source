@@ -17,9 +17,11 @@ module.exports = {
    const authorized = new Authorizer(req.user).new();
    if(authorized) {
    console.log("User Authorized, Redirecting to `wikis/new`.");
+   console.log(err);
    res.render("wikis/new");
  } else {
    console.log("Authorization FAILED!  Redirecting to `/wikis`.");
+   console.log(err);
    req.flash("notice", "You are not authorized to do that.");
    res.redirect("/wikis");
  }

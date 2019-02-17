@@ -13,24 +13,10 @@ module.exports = {
     })
   },
 
-  getWiki(id, callback){
-    return Wiki.findById(id, {
-      include: [
-          {model: User }
-        ]
-     })
-    .then((wiki) => {
-      callback(null, wiki);
-    })
-      .catch((err) => {
-       callback(err);
-    })
-  },
-
   addWiki(newWiki, callback){
     return Wiki.create({
       title: newWiki.title,
-      description: newWiki.description
+      body: newWiki.body
      })
     .then((wiki) => {
       callback(null, wiki);
@@ -39,7 +25,18 @@ module.exports = {
       callback(err);
     })
   },
-   updateWiki(req, updatedWiki, callback){
+
+  getWiki(id, callback){
+    return Wiki.findById(id)
+    .then((wiki) => {
+      callback(null, wiki);
+    })
+      .catch((err) => {
+       callback(err);
+    })
+  },
+
+ updateWiki(req, updatedWiki, callback){
     return Wiki.findById(req.params.id)
     .then((wiki) => {
       if(!wiki){
