@@ -15,7 +15,7 @@ describe("Wiki", () => {
         }).then((user) => {
           Wiki.create({
             title: "Expeditions to Mount Everest",
-            description: "The adventures in the tallest mountain in the world",
+            body: "The adventures in the tallest mountain in the world",
           }),
 
         }).then((wiki) => {
@@ -29,7 +29,7 @@ describe("Wiki", () => {
         it("should create a wiki object with a title, and body", (done) => {
         Wiki.create({
           title: "Best parts of the adventure",
-          description: "Awesomens",
+          body: "Awesomens",
 
      }).then((wiki) => {
       expect(wiki.title).toBe("Best parts of the adventure");

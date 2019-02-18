@@ -10,8 +10,8 @@ describe("routes : wikis", () => {
         this.wiki;
         sequelize.sync({ force: true }).then(() => {
      Wiki.create({
-          title: "Impeach Trump",
-          body: "Trump needs to get impeached for the Russia collusion"
+          title: "My new Wiki",
+          body: "Testing Wiki"
     })
          .then((wiki) => {
             this.wiki = wiki;
