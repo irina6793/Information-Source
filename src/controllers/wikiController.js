@@ -21,7 +21,7 @@ module.exports = {
    res.render("wikis/new");
  } else {
    console.log("Authorization FAILED!  Redirecting to `/wikis`.");
-   console.log(err);
+
    req.flash("notice", "You are not authorized to do that.");
    res.redirect("/wikis");
  }
