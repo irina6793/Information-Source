@@ -28,7 +28,6 @@ new(req, res, next) {
   create(req, res, next){
     const authorized = new Authorizer(req.user).create();
     if(authorized) {
-      console.log(err);
 
     let newWiki = {
       title: req.body.title,
