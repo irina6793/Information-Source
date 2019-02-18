@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             isEmail: { msg: "must be a valid email" }
           }
         },
-        username: {
+    username: {
           type: DataTypes.STRING,
           allowNull: false
         },

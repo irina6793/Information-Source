@@ -32,6 +32,7 @@ module.exports = {
              title: req.body.title,
              body: req.body.body
          };
+         console.log('My newWiki: ', newWiki);
               wikiQueries.addWiki(newWiki, (err, wiki) => {
               if(err){
                    console.log(err);
@@ -46,7 +47,7 @@ module.exports = {
             }
          },
 
-    show(req, res, next){
+  show(req, res, next){
          wikiQueries.getWiki(req.params.id, (err, wiki) => {
            if(err || wiki == null){
                    res.redirect(404, "/wikis");
