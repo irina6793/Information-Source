@@ -14,7 +14,7 @@ module.exports = {
   create(req, res, next){
    let newUser = {
     email: req.body.email,
-    username: req.user.username,
+    username: req.body.username,
     password: req.body.password,
     passwordConfirmation: req.body.passwordConfirmation
   };
