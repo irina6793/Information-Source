@@ -7,9 +7,9 @@
     <% include ../static/partials/navbar.ejs %>
 
     <div class="container">
-      <h1><%= wiki.title %></h1>
-      <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
-      <form style="display:initial" action="/wiki/<%= wiki.id %>/destroy" method="post">
+      <h1><%= wikis.title %></h1>
+      <a href="/wikis/<%= wikis.id %>/edit" class="btn btn-warning">Edit</a>
+      <form style="display:initial" action="/wikis/<%= wikis.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
 

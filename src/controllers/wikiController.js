@@ -39,10 +39,13 @@ module.exports = {
                    console.log(err);
                   res.redirect(500, "/wikis/new");
              } else {
+               console.log(`Wiki Added, sending to "/wikis/${wiki.id}"`);
                  res.redirect(303, `/wikis/${wiki.id}`);
              }
          });
              } else {
+               console.log("Wiki NOT Added, authorization failed.");
+  console.log(`Redirecting to "/wikis/${wiki.id}"`);
                  req.flash("notice", "You are not authorized to do that.");
                  res.redirect(303, "/wikis");
             }
@@ -51,8 +54,10 @@ module.exports = {
   show(req, res, next){
          wikiQueries.getWiki(req.params.id, (err, wiki) => {
            if(err || wiki == null){
+              console.log(`No Wiki was found with id: ${req.params.id}`);
                    res.redirect(404, "/wikis");
            } else {
+             console.log(`Success! Wiki was found with id: ${req.params.id}`);
                 res.render("wikis/show", {wiki});
            }
        });
