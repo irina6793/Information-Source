@@ -4,7 +4,6 @@ module.exports = {
       const userRoutes = require("../routes/user");
       const wikiRoutes = require("../routes/wiki");
 
-
     app.use(staticRoutes);
     app.use(userRoutes);
     app.use(wikiRoutes);

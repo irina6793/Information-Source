@@ -1,6 +1,5 @@
 const wikiQueries = require("../db/queries.wiki.js");
 const Authorizer = require("../policies/wiki");
-const Wiki = require('../db/models').Wiki;
 
 module.exports = {
   index(req, res, next){
@@ -30,7 +29,9 @@ module.exports = {
         if(authorized) {
         let newWiki = {
              title: req.body.title,
-             body: req.body.body
+             body: req.body.body,
+             private: req.body.private,
+               userId: req.user.id
          };
          console.log('My newWiki: ', newWiki);
               wikiQueries.addWiki(newWiki, (err, wiki) => {
@@ -86,7 +87,7 @@ update(req, res, next){
 destroy(req, res, next){
   wikiQueries.deleteWiki(req, (err, wiki) => {
     if(err){
-      res.redirect(500, `/wikis/${req.params.id}`)
+      res.redirect(500, `/wikis/${wiki.id}`)
     } else {
       res.redirect(303, "/wikis")
     }
