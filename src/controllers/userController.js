@@ -75,12 +75,12 @@ signOut(req, res, next){
   },
 
   show(req, res, next){
-    userQueries.getUser(req.params.id, (err, result) => {
-      if(err || result.user === undefined){
-        req.flash("notice", "No user found with that ID.");
+    userQueries.getUser(req.params.id, (err, user) => {
+      if(err || user === undefined){
+        req.flash("notice", "user not found");
         res.redirect("/");
       } else {
-        res.render("user/show", {...result});
+        res.render("user/show", {user});
       }
   });
  }
