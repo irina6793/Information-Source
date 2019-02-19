@@ -63,11 +63,17 @@ module.exports = {
      },
 
   destroy(req, res, next){
+    console.log(`No Wiki was deleted`);
+
        wikiQueries.deleteWiki(req.params.id, (err, wiki) => {
          if(err || wiki == null ){
+           console.log(`No Wiki was deleted`);
+
            res.redirect(404, "/");
          } else {
-           res.redirect("/wikis/destroy", {wiki})
+           console.log(` Wiki was deleted`);
+
+           res.redirect("/wikis")
          }
     });
   },
