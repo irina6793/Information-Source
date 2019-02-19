@@ -63,19 +63,13 @@ module.exports = {
      },
 
   destroy(req, res, next){
-    const authorized = new Authorizer(req.user).destroy();
-    if(authorized) {
        wikiQueries.deleteWiki(req.params.id, (err, wiki) => {
-         if(err){
-           res.redirect(500, `/wikis/${wiki.id}`)
+         if(err || wiki == null ){
+           res.redirect(404, "/");
          } else {
-           res.redirect(303, "/wikis")
+           res.redirect("/wikis/destroy", {wiki})
          }
-       });
-      } else {
-      req.flash("notice", "You are not authorized to do that.");
-      res.redirect(`/wikis/${req.params.id}/`);
-    }
+    });
   },
 
  edit(req, res, next){

@@ -54,8 +54,8 @@ module.exports = {
    });
   },
 
-  deleteWiki(req, callback){
-  return Wiki.destroy(req.params.id)
+  deleteWiki(id, callback){
+  return Wiki.findById(id)
   .then((wiki) => {
      callback(null, wiki);
    })
