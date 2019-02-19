@@ -12,11 +12,8 @@
       <form style="display:initial" action="/wikis/<%= wikis.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
-
-      <p><%= wiki.description %></p>
+        <p><%= wiki.description %></p>
     </div>
-
-   <% include ../static/partials/baseScripts.ejs %>
-
+       <% include ../static/partials/baseScripts.ejs %>
   </body>
 </html>
