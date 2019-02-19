@@ -88,7 +88,7 @@ describe("POST /wikis/:id/destroy", () => {
              .then((wikis) => {
               const wikiCountBeforeDelete = wikis.length;
               expect(wikiCountBeforeDelete).toBe(1);
-                     request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
+              request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
         Wiki.all()
              .then((wikis) => {
               expect(err).toBeNull();
