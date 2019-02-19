@@ -29,9 +29,7 @@ describe("#create()", () => {
         done();
       });
     });
-
-// #3
-   it("should not create a user with invalid email or password", (done) => {
+it("should not create a user with invalid email or password", (done) => {
      User.create({
        email: "It's-a me, Mario!",
        password: "hello"
@@ -43,23 +41,17 @@ describe("#create()", () => {
        done();
      })
      .catch((err) => {
-
-// #4
       expect(err.message).toContain("Error: must be a valid email");
       done();
     });
   });
-
 it("should not create a user with an email already taken", (done) => {
-
-// #5
    User.create({
      email: "irina67@yahoo.com",
      password: "hello"
    })
    .then((user) => {
-
-   User.create({
+     User.create({
      email: "user@example.com",
      password: "nananananananananananananananana BATMAN!"
    })
@@ -73,8 +65,7 @@ it("should not create a user with an email already taken", (done) => {
      expect(err.message).toContain("Error");
      done();
    });
-
-   done();
+      done();
  })
   .catch((err) => {
     console.log(err);

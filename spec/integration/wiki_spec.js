@@ -29,7 +29,7 @@ describe("GET /wikis", () => {
          request.get(base, (err, res, body) => {
            expect(res.statusCode).toBe(200);
            expect(err).toBeNull();
-           expect(body).toContain("Impeach Trump");
+           expect(body).toContain("Wikis");
            done();
             });
        });
@@ -50,7 +50,8 @@ describe("POST /wikis/create", () => {
           url: `${base}create`,
               form: {
                  title: "Naional Emergency",
-                 body: "Abuse of power"
+                 body: "Abuse of power",
+                 private: false
               }
           };
 it("should create a new wiki and redirect", (done) => {

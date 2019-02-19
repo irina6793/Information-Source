@@ -11,7 +11,7 @@ create() {
 }
 
 edit() {
-  return this.new();
+  return true;
 }
 
 update() {

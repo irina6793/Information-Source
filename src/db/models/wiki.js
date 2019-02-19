@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     private: {
       type: DataTypes.STRING,
-      allowNull: false,
       defaultValue: false
     },
     userId: {
