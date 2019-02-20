@@ -26,7 +26,7 @@ module.exports = {
     })
   },
 
-  getWiki(id, callback){
+  getWiki(req, callback){
     return Wiki.findById(id)
     .then((wiki) => {
       callback(null, wiki);
