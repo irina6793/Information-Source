@@ -46,13 +46,14 @@ module.exports = {
   },
 
   signIn(req, res, next) {
-      passport.authenticate("local", (err, user, info) => {
-        if (err || !user) {
+      passport.authenticate("local")
+      if (err || !user) {
           req.flash(
             "notice",
             info ? info.message : "Sign in failed. Please try again."
           );
-          return res.redirect("/user/sign_in");
+          return res.redirect('/users/' + req.user.username);
+
         } else {
           req.logIn(user, err => {
             if (err) {
@@ -63,7 +64,6 @@ module.exports = {
             return res.redirect("/");
           });
         }
-      })(req, res, next);
   },
 
     signOut(req, res, next){
