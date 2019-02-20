@@ -54,13 +54,16 @@ module.exports = {
    });
   },
 
-  deleteWiki(id, callback){
-  return Wiki.findById(id)
+  deleteWiki(req, callback){
+  return Wiki.findById(req.params.id)
   .then((wiki) => {
-     callback(null, wiki);
-   })
-      .catch((err) => {
-       callback(err);
-    });
+            wiki.destroy()
+            .then((res) => {
+              callback(null, wiki);
+            })
+         })
+    .catch((err) => {
+      callback(err);
+    })
   },
 }

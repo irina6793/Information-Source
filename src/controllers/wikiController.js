@@ -5,11 +5,9 @@ module.exports = {
   index(req, res, next){
         wikiQueries.getAllWikis((err, wikis) => {
            if(err){
-             console.log(`No page`);
 
                    res.redirect(500, "static/index");
            } else {
-             console.log(`No page deleted`);
 
                    res.render("wikis/index", {wikis});
            }
@@ -67,7 +65,7 @@ module.exports = {
      },
 
   destroy(req, res, next){
-     wikiQueries.deleteWiki(req.params.id, (err, wiki) => {
+     wikiQueries.deleteWiki(req, (err, wiki) => {
          if(err || wiki == null ){
            res.redirect(404, `/wikis/${wiki.id}`);
          } else {
