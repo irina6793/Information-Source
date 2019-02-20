@@ -37,7 +37,6 @@ module.exports = {
            res.redirect(303, `/wikis/${wiki.id}`);
              }
          });
-      }
   },
 
   show(req, res, next){
