@@ -46,25 +46,23 @@ module.exports = {
   },
 
   signIn(req, res, next) {
-      passport.authenticate("local")
+      passport.authenticate("local"), (req, user, info) => {
       if (err || !user) {
-          req.flash(
-            "notice",
-            info ? info.message : "Sign in failed. Please try again."
-          );
-          return res.redirect('/users/' + req.user.username);
-
-        } else {
-          req.logIn(user, err => {
-            if (err) {
-              req.flash("notice", "Sign in failed. Please try again.");
-              return res.redirect(500, "/user/sign_in");
+        req.flash(
+                "notice",
+                info ? info.message : "Sign in failed. Please try again."
+              );
+              return res.redirect("/user/sign_in");
+            } else {
+                if (err) {
+                  req.flash("notice", "Sign in failed. Please try again.");
+                  return res.redirect(500, "/user/sign_in");
+                }
+                req.flash("notice", "You've succesfully signed in!");
+                return res.redirect("/");
             }
-            req.flash("notice", "You've succesfully signed in!");
-            return res.redirect("/");
-          });
         }
-  },
+      },
 
     signOut(req, res, next){
         req.logout();
