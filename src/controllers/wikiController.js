@@ -1,5 +1,5 @@
 const wikiQueries = require("../db/queries.wiki.js");
-const Authorizer = require("../policies/wiki");
+const passport = require("passport");
 
 module.exports = {
   index(req, res, next){
@@ -13,12 +13,9 @@ module.exports = {
      },
 
   new(req, res, next) {
-       const authorized = new Authorizer(req.user).new();
-       if (authorized) {
-             console.log("User Authorized, Redirecting to `wikis/new`.");
-             res.render("wikis/new");
+       if (err || wiki == null) {
+            res.render("wikis/new");
         } else {
-             console.log("Authorization FAILED!  Redirecting to `/wikis`.");
            req.flash("notice", "You are not authorized to do that.");
            res.redirect("/wikis");
         }

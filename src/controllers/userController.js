@@ -46,8 +46,8 @@ module.exports = {
   },
 
   signIn(req, res, next) {
-      passport.authenticate("local"), (req, user, info) => {
-      if (err || !user) {
+      passport.authenticate("local"), (req, res, info) => {
+      if (err || !req.user) {
         req.flash(
                 "notice",
                 info ? info.message : "Sign in failed. Please try again."
