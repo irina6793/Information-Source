@@ -33,8 +33,6 @@ describe("Wiki", () => {
 
      }).then((wiki) => {
       expect(wiki.title).toBe("Best parts of the adventure");
-
-      //expect(topic.topicId).toBe(this.topic.id);
       done();
     }).catch((err) => {
        console.log(err);
@@ -42,4 +40,82 @@ describe("Wiki", () => {
      });
     });
   });
+
+  describe("#setWiki()", () => {
+      it("should associate a wiki and a user together", (done) => {
+      Wiki.create({
+       title: "Wiki 1",
+       body: "1. The Wiki"
+  }).then((newTopic) => {
+     expect(this.post.topicId).toBe(this.topic.id);
+     this.post.setTopic(newTopic).then((post) => {
+      expect(post.topicId).toBe(newTopic.id);
+      done();
+      });
+    });
+    });
+  });
+
+  describe("#getTopic()", () => {
+    it("should return the associated topic", (done) => {
+      this.post.getTopic()
+      .then((associatedTopic) => {
+        expect(associatedTopic.title).toBe("Expeditions to Alpha Centauri");
+        done();
+      });
+    });
+   });
+
+  describe("#setUser()", () => {
+    it("should associate a post and a user together", (done) => {
+      User.create({
+        email: "ada@example.com",
+        password: "password"
+      })
+      .then((newUser) => {
+        expect(this.post.userId).toBe(this.user.id);
+        this.post.setUser(newUser)
+        .then((post) => {
+          expect(this.post.userId).toBe(newUser.id);
+          done();
+        });
+      })
+    });
+  });
+
+  describe("#getUser()", () => {
+    it("should return the associated topic", (done) => {
+      this.post.getUser()
+      .then((associatedUser) => {
+        expect(associatedUser.email).toBe("starman@tesla.com");
+        done();
+      });
+    });
+   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
