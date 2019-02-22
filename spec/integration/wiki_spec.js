@@ -25,7 +25,7 @@ describe("routes : wikis", () => {
  });
 
  // context of admin user
- describe("admin user performing CRUD actions for Topic", () => {
+ describe("admin user performing CRUD actions for Wiki", () => {
    beforeEach((done) => {  // before each suite in admin context
      User.create({         // mock authentication
        email: "irina6793@yahoo.com",
