@@ -1,76 +1,77 @@
 const userQueries = require("../db/queries.users.js");
 const wikiQueries = require("../db/queries.wiki.js");
 const passport = require("passport");
-const sgMail = require('@sendgrid/mail');
-const express = require('express');
+const sgMail = require("@sendgrid/mail");
+const express = require("express");
 const router = express.Router();
 
 module.exports = {
-    signup(req, res, next){
-      res.render("user/signup", {title: "Signup"});
-    },
+  signup(req, res, next) {
+    res.render("user/signup", { title: "Signup" });
+  },
 
-    create(req, res, next){
-       let newUser = {
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-            passwordConfirmation: req.body.passwordConfirmation
-         };
-     userQueries.createUser(newUser, (err, user) => {
-     if(err){
-       console.log(err)
-       req.flash("error", err);
-       res.redirect("/user/signup");
-     } else {
-         passport.authenticate("local")(req, res, () => {
-         req.flash("notice", "You've successfully signed in!");
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-      const msg = {
-          to: 'irina6793@yahoo.com',
-          from: 'test@example.com',
-          subject: 'Sending with SendGrid is Fun',
-          text: 'and easy to do anywhere, even with Node.js',
-          html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  create(req, res, next) {
+    let newUser = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirmation: req.body.passwordConfirmation
     };
-        console.log("Sending message...");
-        sgMail.send(msg);
-        res.redirect("/");
-      })
-     }
+    userQueries.createUser(newUser, (err, user) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", err);
+        res.redirect("/user/signup");
+      } else {
+        passport.authenticate("local")(req, res, () => {
+          req.flash("notice", "You've successfully signed in!");
+          sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+          const msg = {
+            to: "irina6793@yahoo.com",
+            from: "test@example.com",
+            subject: "Sending with SendGrid is Fun",
+            text: "and easy to do anywhere, even with Node.js",
+            html: "<strong>and easy to do anywhere, even with Node.js</strong>"
+          };
+          console.log("Sending message...");
+          sgMail.send(msg);
+          res.redirect("/");
+        });
+      }
     });
   },
 
-  signInForm(req, res, next){
+  signInForm(req, res, next) {
     res.render("user/sign_in");
   },
 
   signIn(req, res, next) {
-      passport.authenticate("local"), (req, res, function() => {
-      if (!user) {
-        req.flash("notice", "Sign in failed. Please try again.")
-        res.redirect("/user/sign_in");
-    } else {
-        req.flash("notice", "You've succesfully signed in!");
-        res.redirect("/");
-    }
-  })
-},
+    passport.authenticate("local"),
+      (function(err, user, info) {
+        if (!user) {
+          req.flash("notice", "Sign in failed. Please try again.");
+          res.redirect("/user/sign_in");
+        } else {
+          req.flash("notice", "You've succesfully signed in!");
+          res.redirect("/");
+        }
+      })(req, res, next);
+  },
 
-    signOut(req, res, next){
-        req.logout();
-        req.flash("notice", "You've successfully signed out!");
-        res.redirect("/");
-     },
+  signOut(req, res, next) {
+    req.logout();
+    req.flash("notice", "You've successfully signed out!");
+    res.redirect("/");
+  },
 
-  show(req, res, next){
+  show(req, res, next) {
     userQueries.getUser(req.params.id, (err, user) => {
-      if(err || user === undefined){
+      if (err || user === undefined) {
         req.flash("notice", "user not found");
         res.redirect("/");
       } else {
-        res.render("user/show", {user});
+        res.render("user/show", { user });
       }
-  });
- }
-}
+    });
+  }
+};
