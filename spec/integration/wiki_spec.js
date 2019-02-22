@@ -24,6 +24,30 @@ describe("routes : wikis", () => {
     });
  });
 
+ // context of admin user
+ describe("admin user performing CRUD actions for Topic", () => {
+   beforeEach((done) => {  // before each suite in admin context
+     User.create({         // mock authentication
+       email: "irina6793@yahoo.com",
+       password: "techjob2019",
+       role: "admin"     // mock authenticate as admin user
+     })
+     .then((user) => {
+       request.get({         // mock authentication
+         url: "http://localhost:3000/auth/fake",
+         form: {
+           role: user.role,     // mock authenticate as admin user
+           userId: user.id,
+           email: user.email
+      }
+    },
+       (err, res, body) => {
+         done();
+     }
+   );
+  });
+});
+
 describe("GET /wikis", () => {
      it("should return a status code 200 and all wikis", (done) => {
          request.get(base, (err, res, body) => {

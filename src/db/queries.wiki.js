@@ -27,6 +27,10 @@ module.exports = {
   },
 
   getWiki(req, callback){
+    console.log("DEBUG: queries.wiki.js#getWiki");
+   console.dir(req);
+   console.log("\n\n");
+
     return Wiki.findById(req.params.id)
     .then((wiki) => {
       callback(null, wiki);

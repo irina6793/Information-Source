@@ -13,6 +13,7 @@ module.exports = {
      },
 
   new(req, res, next) {
+     console.log(req.user)
      const authorized = new Authorizer(req.user).new();
          if(authorized) {
             res.render("wikis/new");
@@ -31,7 +32,7 @@ module.exports = {
              userId: req.user.id
          };
         wikiQueries.addWiki(newWiki, (err, wiki) => {
-        if(err || wiki == null){
+        if(err){
             res.redirect(500, "/wikis/new");
      } else {
            res.redirect(303, `/wikis/${wiki.id}`);
