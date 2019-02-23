@@ -6,7 +6,7 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = {
-  signup(req, res, next) {
+  signUp(req, res, next) {
     res.render("user/signup", { title: "Signup" });
   },
 
