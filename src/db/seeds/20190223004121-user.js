@@ -6,8 +6,9 @@ let user = [];
 
 for (let i = 1; i <= 15; i++) {
   user.push({
-    email: faker.hacker.noun(),
-    password: faker.hacker.phrase(),
+    username: faker.hacker.noun(),
+    email: faker.hacker.phrase(),
+    password: faker.hacker.noun(),
     createdAt: new Date(),
     updatedAt: new Date()
   });

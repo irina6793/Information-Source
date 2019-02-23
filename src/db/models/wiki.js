@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  var Wiki = sequelize.define('Wiki', {
+  var Wiki = sequelize.define("Wiki", {
     title: {
       type: DataTypes.STRING,
       allowNull: false
@@ -14,21 +14,21 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false
     },
     userId: {
-          type: DataTypes.INTEGER,
-          onDelete: "CASCADE",
-          references: {
-            model: "Users",
-            key: "id",
-            as: "userId"
-          }
-       },
+      type: DataTypes.INTEGER,
+      onDelete: "CASCADE",
+      references: {
+        model: "User",
+        key: "id",
+        as: "userId"
+      }
+    }
   });
-   Wiki.associate = function(models) {
-     // associations can be defined here
-      Wiki.belongsTo(models.User, {
-          foreignKey: "userId",
-          as: "CASCADE",
-     });
+  Wiki.associate = function(models) {
+    // associations can be defined here
+    Wiki.belongsTo(models.User, {
+      foreignKey: "userId",
+      as: "CASCADE"
+    });
   };
 
   return Wiki;
