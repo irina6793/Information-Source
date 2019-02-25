@@ -6,6 +6,7 @@ let wiki = [];
 
 for (let i = 1; i <= 15; i++) {
   wiki.push({
+    userId: 1,
     title: faker.hacker.noun(),
     body: faker.hacker.phrase(),
     private: true,
