@@ -12,28 +12,27 @@ describe("routes : wikis", () => {
         email: "irina6793@yahoo.com",
         password: "techy",
         role: 0
-      })
-      .then(user => {
+      }).then(user => {
         this.user;
-      Wiki.create({
-        title: "My new Wiki",
-        body: "Testing Wiki",
-        private: false,
-        userId: this.user.id
-      })
-        .then(wiki => {
-          this.wiki = wiki;
-          done();
+        Wiki.create({
+          title: "My new Wiki",
+          body: "Testing Wiki",
+          private: false,
+          userId: this.user.id
         })
-        .catch(err => {
-          console.log(err);
-          done();
-        });
+          .then(wiki => {
+            this.wiki = wiki;
+            done();
+          })
+          .catch(err => {
+            console.log(err);
+            done();
+          });
+      });
     });
   });
-});
 
-// member user
+  // member user
   describe("member user for Wiki", () => {
     describe("GET /wikis/new", () => {
       beforeEach(done => {
@@ -41,157 +40,161 @@ describe("routes : wikis", () => {
           email: "irina6793@yahoo.com",
           password: "techy",
           role: 0
-     })
-       .then(user => {
-         request.get({
-           url: "http://localhost:3000/auth/fake",
-           form: {
-             role: user.role, // mock authenticate as admin user
-             userId: user.id,
-             email: user.email
-      }
-   },
-     (err, res, body) => {
-       done();
-   });
-  });
- });
-});
-
-it("should render a view with a new wiki form", done => {
-  request.get(`${base}new`, (err, res, body) => {
-    expect(err).toBeNull();
-    expect(body).toContain("New Wiki");
-    done();
-  });
- });
-});
-
-describe("POST /wikis/create", () => {
-    beforeEach((done) => {
-      User.create({
-            email: "dasha95@gmail.com",
-            password: "smarty",
-            role: 0
-      })
-         .then((user) => {
-            request.get({
+        }).then(user => {
+          request.get(
+            {
               url: "http://localhost:3000/auth/fake",
               form: {
+                role: user.role, // mock authenticate as admin user
                 userId: user.id,
-                role: user.role,
                 email: user.email
               }
             },
-               (err, res, body) => {
-                done();
-            });
+            (err, res, body) => {
+              done();
+            }
+          );
         });
       });
-  it("should create a new wiki and redirect", done => {
-    const options = {
-      url: `${base}create`,
-      form: {
-        title: "Naional Emergency",
-        body: "Abuse of power",
-        private: false,
-        userId: this.user.id
-   }
-};
-   request.post(options, (err, res, body) => {
-      Wiki.findOne({ where: { title: "National Emergency" } })
-         .then(wiki => {
-          expect(wiki.title).toBe("National Emergency");
-          expect(wiki.body).toBe("Abuse of power");
-          done();
-    })
-         .catch(err => {
-            console.log(err);
-           done();
+    });
+
+    it("should render a view with a new wiki form", done => {
+      request.get(`${base}new`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("New Wiki");
+        done();
       });
     });
   });
-});
 
-describe("GET /wikis/:id", () => {
-      it("should render a view with the selected wiki", done => {
-        request.get(`${base}${this.wiki.id}`, (err, res, body) => {
-          expect(err).toBeNull();
-          expect(body).toContain("National Emergency");
-          done();
-        });
-      });
-    });
-
-describe("POST /wikis/:id/destroy", () => {
-      it("should delete the wiki with the associated ID", done => {
-        Wiki.all().then(wikis => {
-          const wikiCountBeforeDelete = wikis.length;
-          expect(wikiCountBeforeDelete).toBe(1);
-          request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
-            Wiki.all().then(wikis => {
-              expect(err).toBeNull();
-              expect(wikis.length).toBe(wikiCountBeforeDelete - 1);
-              done();
-            });
-          });
-        });
-      });
-    });
-
-    describe("GET /wikis/:id/edit", () => {
-      it("should render a view with an edit wiki form", done => {
-        request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
-          expect(err).toBeNull();
-          expect(body).toContain("Edit Wiki");
-          expect(body).toContain("Impeach Trump");
-          done();
-        });
-      });
-    });
-
-    describe("POST /wikis/:id/update", () => {
-      beforeEach((done) => {
-          User.create({
-                email: "dasha95@gmail.com",
-                password: "smarty",
-                role: 0
-              })
-                .then((user) => {
-                  request.get({
-                    url: "http://localhost:3000/auth/fake",
-                    form: {
-                      userId: user.id,
-                      role: user.role,
-                      email: user.email
-                }
-              },
-                 (err, res, body) => {
-                    done();
-              });
-          });
-      });
- it("should update the wiki", done => {
-        request.post(
+  describe("POST /wikis/create", () => {
+    beforeEach(done => {
+      User.create({
+        email: "dasha95@gmail.com",
+        password: "smarty",
+        role: 0
+      }).then(user => {
+        request.get(
           {
-            url: `${base}${this.wiki.id}/update`,
+            url: "http://localhost:3000/auth/fake",
             form: {
-              title: "Impeach Trump",
-              body: "There are a lot of them",
-              private: false,
-              userId: this.user.id
-        }
-      },
+              userId: user.id,
+              role: user.role,
+              email: user.email
+            }
+          },
           (err, res, body) => {
-            expect(err).toBeNull();
-            Wiki.findOne({
-              where: { id: 1 }
-            }).then(wiki => {
-              expect(wiki.title).toBe("Impeach Trump");
-              done();
-            });
+            done();
+          }
+        );
+      });
+    });
+    it("should create a new wiki and redirect", done => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          title: "Naional Emergency",
+          body: "Abuse of power",
+          private: false,
+          userId: this.user.id
+        }
+      };
+      request.post(options, (err, res, body) => {
+        Wiki.findOne({ where: { title: "National Emergency" } })
+          .then(wiki => {
+            expect(wiki.title).toBe("National Emergency");
+            expect(wiki.body).toBe("Abuse of power");
+            done();
+          })
+          .catch(err => {
+            console.log(err);
+            done();
           });
       });
+    });
+  });
+
+  describe("GET /wikis/:id", () => {
+    it("should render a view with the selected wiki", done => {
+      request.get(`${base}${this.wiki.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("National Emergency");
+        done();
+      });
+    });
+  });
+
+  describe("POST /wikis/:id/destroy", () => {
+    it("should delete the wiki with the associated ID", done => {
+      Wiki.all().then(wikis => {
+        const wikiCountBeforeDelete = wikis.length;
+        expect(wikiCountBeforeDelete).toBe(1);
+        request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
+          Wiki.all().then(wikis => {
+            expect(err).toBeNull();
+            expect(wikis.length).toBe(wikiCountBeforeDelete - 1);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe("GET /wikis/:id/edit", () => {
+    it("should render a view with an edit wiki form", done => {
+      request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Wiki");
+        expect(body).toContain("Impeach Trump");
+        done();
+      });
+    });
+  });
+
+  describe("POST /wikis/:id/update", () => {
+    beforeEach(done => {
+      User.create({
+        email: "dasha95@gmail.com",
+        password: "smarty",
+        role: 0
+      }).then(user => {
+        request.get(
+          {
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              userId: user.id,
+              role: user.role,
+              email: user.email
+            }
+          },
+          (err, res, body) => {
+            done();
+          }
+        );
+      });
+    });
+    it("should update the wiki", done => {
+      request.post(
+        {
+          url: `${base}${this.wiki.id}/update`,
+          form: {
+            title: "Impeach Trump",
+            body: "There are a lot of them",
+            private: false,
+            userId: this.user.id
+          }
+        },
+        (err, res, body) => {
+          expect(err).toBeNull();
+          Wiki.findOne({
+            where: { id: 1 }
+          }).then(wiki => {
+            expect(wiki.title).toBe("Impeach Trump");
+            done();
+          });
+        }
+      );
+    });
   }); //end member user
 
   // standard user
@@ -204,7 +207,7 @@ describe("POST /wikis/:id/destroy", () => {
       }).then(user => {
         request.get(
           {
-          url: "http://localhost:3000/auth/fake",
+            url: "http://localhost:3000/auth/fake",
             form: {
               role: user.role,
               userId: user.id,
@@ -279,49 +282,17 @@ describe("POST /wikis/:id/destroy", () => {
     });
   }); //standard user end
 
-//premium user
-    describe("premium user", () => {
-      describe("GET /wikis/new", () => {
-        beforeEach((done) => {
-          User.create({
-               email: "irina@yahoo.com",
-               password: "job",
-               role: 1
-          })
-          .then((user) => {
-                request.get({
-                  url: "http://localhost:3000/auth/fake",
-                     form: {
-                       userId: user.id,
-                       role: user.role,
-                       email: user.email
-                }
-             },
-               (err, res, body) => {
-                 done();
-             });
-         });
-       });
-     });
-
-it("should render a view with the selected wiki", (done) => {
-      request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
-              expect(err).toBeNull();
-             expect(body).toContain("Wikis");
-             done();
-           });
-       });
-  });
-
-describe("POST /wikis/create", () => {
-      beforeEach((done) => {
-          User.create({
-            email: "irina@yahoo.com",
-            password: "job",
-            role: 1
-          })
-          .then((user) => {
-            request.get({
+  //premium user
+  describe("premium user", () => {
+    describe("GET /wikis/new", () => {
+      beforeEach(done => {
+        User.create({
+          email: "irina@yahoo.com",
+          password: "job",
+          role: 1
+        }).then(user => {
+          request.get(
+            {
               url: "http://localhost:3000/auth/fake",
               form: {
                 userId: user.id,
@@ -331,72 +302,125 @@ describe("POST /wikis/create", () => {
             },
             (err, res, body) => {
               done();
-            });
-          });
-        });
-
-it("should create a new wiki and redirect", (done) => {
-      const options = {
-            url: `${base}create`,
-            form: {
-              title: "Revise Wiki",
-              description: "There are a lot of them",
-              private: true,
-              userId: this.user.id
             }
-          };
-      }
+          );
+        });
+      });
+    });
 
+    it("should render a view with the selected wiki", done => {
+      request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Wikis");
+        done();
+      });
+    });
+  });
 
+  describe("POST /wikis/create", () => {
+    beforeEach(done => {
+      User.create({
+        email: "irina@yahoo.com",
+        password: "job",
+        role: 1
+      }).then(user => {
+        request.get(
+          {
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              userId: user.id,
+              role: user.role,
+              email: user.email
+            }
+          },
+          (err, res, body) => {
+            done();
+          }
+        );
+      });
+    });
 
-
-
-
-
-
-
-
-
-    describe("GET /wikis/:id", () => {
-      it("should render a view with the selected wiki", (done) => {
-          request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
-            expect(err).toBeNull();
-            expect(body).toContain("Wikis");
+    it("should create a new wiki and redirect", done => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          title: "Revise Wiki",
+          description: "There are a lot of them",
+          private: true,
+          userId: this.user.id
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        Wiki.findOne({
+          where: { id: 1 }
+        })
+          .then(wiki => {
+            expect(wiki.title).toBe("Wikis"); // confirm title is unchanged
+            done();
+          })
+          .catch(err => {
+            console.log(err);
             done();
           });
       });
-     });
-     describe("GET /wikis/:id/edit", () => {
-       it("should not render a view with an edit wiki form", done => {
-         request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
-           expect(err).toBeNull();
-           expect(body).not.toContain("Edit Wiki");
-           expect(body).toContain("Wikis"); // confirm redirect to topic show
-           done();
-         });
-       });
-     });
-
-     describe("POST /wikis/:id/update", () => {
-       it("should not update the wiki with the given values", done => {
-         const options = {
-           url: `${base}${this.wiki.id}/update`,
-           form: {
-             title: "Revise Wiki",
-             description: "There are a lot of them"
-           }
-         };
-         request.post(options, (err, res, body) => {
-           expect(err).toBeNull();
-           Wiki.findOne({
-             where: { id: 1 }
-           }).then(wiki => {
-             expect(wiki.title).toBe("Wikis"); // confirm title is unchanged
-             done();
-           });
-         });
-       });
-     }); //premium user end
     });
-  }
-}
+  });
+
+  describe("GET /wikis/:id", () => {
+    it("should render a view with the selected wiki", done => {
+      request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Wikis");
+        done();
+      });
+    });
+  });
+
+  describe("POST /wikis/:id/destroy", () => {
+    it("should delete the wiki with the associated id", done => {
+      Wiki.all().then(wikis => {
+        expect(wikis.length).toBe(1);
+        request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
+          Wiki.all().then(wikis => {
+            expect(err).toBeNull();
+            expect(wikis.length).toBe(0);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe("GET /wikis/:id/edit", () => {
+    it("should not render a view with an edit wiki form", done => {
+      request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).not.toContain("Edit Wiki");
+        expect(body).toContain("Wikis"); // confirm redirect to topic show
+        done();
+      });
+    });
+  });
+
+  describe("POST /wikis/:id/update", () => {
+    it("should not update the wiki with the given values", done => {
+      const options = {
+        url: `${base}${this.wiki.id}/update`,
+        form: {
+          title: "Revise Wiki",
+          description: "There are a lot of them"
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        Wiki.findOne({
+          where: { id: 1 }
+        }).then(wiki => {
+          expect(wiki.title).toBe("Wikis"); // confirm title is unchanged
+          done();
+        });
+      });
+    });
+  }); //premium user end
+});
