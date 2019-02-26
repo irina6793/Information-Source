@@ -7,12 +7,19 @@ const sequelize = require("../../src/db/models/index").sequelize;
 
 describe("routes : wikis", () => {
   beforeEach(done => {
-    this.wiki;
-    this.user;
     sequelize.sync({ force: true }).then(() => {
+      User.create({
+        email: "irina6793@yahoo.com",
+        password: "techy",
+        role: 0
+      })
+      .then(user => {
+        this.user;
       Wiki.create({
         title: "My new Wiki",
-        body: "Testing Wiki"
+        body: "Testing Wiki",
+        private: false,
+        userId: this.user.id
       })
         .then(wiki => {
           this.wiki = wiki;
@@ -24,35 +31,89 @@ describe("routes : wikis", () => {
         });
     });
   });
+});
 
-  // context of admin user
-  describe("admin user performing CRUD actions for Wiki", () => {
-    beforeEach(done => {
-      // before each suite in admin context
+// member user
+  describe("member user for Wiki", () => {
+    describe("GET /wikis/new", () => {
+      beforeEach(done => {
+        User.create({
+          email: "irina6793@yahoo.com",
+          password: "techy",
+          role: 0
+     })
+       .then(user => {
+         request.get({
+           url: "http://localhost:3000/auth/fake",
+           form: {
+             role: user.role, // mock authenticate as admin user
+             userId: user.id,
+             email: user.email
+      }
+   },
+     (err, res, body) => {
+       done();
+   });
+  });
+ });
+});
+
+it("should render a view with a new wiki form", done => {
+  request.get(`${base}new`, (err, res, body) => {
+    expect(err).toBeNull();
+    expect(body).toContain("New Wiki");
+    done();
+  });
+ });
+});
+
+describe("POST /wikis/create", () => {
+    beforeEach((done) => {
       User.create({
-        // mock authentication
-        email: "irina6793@yahoo.com",
-        password: "techy",
-        role: "admin" // mock authenticate as admin user
-      }).then(user => {
-        request.get(
-          {
-            // mock authentication
-            url: "http://localhost:3000/auth/fake",
-            form: {
-              role: user.role, // mock authenticate as admin user
-              userId: user.id,
-              email: user.email
-            }
-          },
-          (err, res, body) => {
-            done();
-          }
-        );
+            email: "dasha95@gmail.com",
+            password: "smarty",
+            role: 0
+      })
+         .then((user) => {
+            request.get({
+              url: "http://localhost:3000/auth/fake",
+              form: {
+                userId: user.id,
+                role: user.role,
+                email: user.email
+              }
+            },
+               (err, res, body) => {
+                done();
+            });
+        });
+      });
+  it("should create a new wiki and redirect", done => {
+    const options = {
+      url: `${base}create`,
+      form: {
+        title: "Naional Emergency",
+        body: "Abuse of power",
+        private: false,
+        userId: this.user.id
+   }
+};
+   request.post(options, (err, res, body) => {
+      Wiki.findOne({ where: { title: "National Emergency" } })
+         .then(wiki => {
+          expect(wiki.title).toBe("National Emergency");
+          expect(wiki.body).toBe("Abuse of power");
+          done();
+    })
+         .catch(err => {
+            console.log(err);
+           done();
       });
     });
+  });
+});
 
-    describe("GET /wikis/:id", () => {
+describe("GET /wikis/:id", () => {
       it("should render a view with the selected wiki", done => {
         request.get(`${base}${this.wiki.id}`, (err, res, body) => {
           expect(err).toBeNull();
@@ -62,53 +123,7 @@ describe("routes : wikis", () => {
       });
     });
 
-    describe("GET /wikis/new", () => {
-      it("should render a view with a new wiki form", done => {
-        request.get(`${base}new`, (err, res, body) => {
-          expect(err).toBeNull();
-          expect(body).toContain("New Wiki");
-          done();
-        });
-      });
-    });
-
-    describe("POST /wikis/create", () => {
-      const options = {
-        url: `${base}create`,
-        form: {
-          title: "Naional Emergency",
-          body: "Abuse of power",
-          private: false
-        }
-      };
-      it("should create a new wiki and redirect", done => {
-        request.post(options, (err, res, body) => {
-          Wiki.findOne({ where: { title: "National Emergency" } })
-            .then(wiki => {
-              expect(wiki.title).toBe("National Emergency");
-              expect(wiki.body).toBe("Abuse of power");
-              done();
-            })
-            .catch(err => {
-              console.log(err);
-              done();
-            });
-        });
-      });
-    });
-
-    describe("GET /wikis", () => {
-      it("should return a status code 200 and all wikis", done => {
-        request.get(base, (err, res, body) => {
-          expect(res.statusCode).toBe(200);
-          expect(err).toBeNull();
-          expect(body).toContain("Wikis");
-          done();
-        });
-      });
-    });
-
-    describe("POST /wikis/:id/destroy", () => {
+describe("POST /wikis/:id/destroy", () => {
       it("should delete the wiki with the associated ID", done => {
         Wiki.all().then(wikis => {
           const wikiCountBeforeDelete = wikis.length;
@@ -301,3 +316,5 @@ describe("routes : wikis", () => {
        });
      }); //premium user end
     });
+  }
+}
