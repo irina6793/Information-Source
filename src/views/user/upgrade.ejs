@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../static/partials/head.ejs %>
+</head>
+<body>
+  <% include ../static/partials/navbar.ejs %>
+<main class="container">
+  <h2>You successfully paid $15.00</h2>
+  <div class="row">
+    <div class="col-md-8">
+      <form method="POST" action="/user/upgrade">
+        <div class="form-group">
+          <label>Amount:</label>
+          <input type="text" placeholder="Enter Amount" class="form-control"/>
+        </div><br>
+        <input type="submit" value="Upgrade" class="stripe-button"/>
+      </form>
+    </div>
+  </div>
+    <% include ../static/partials/baseScripts.ejs %>
+  </body>
+  </html>
