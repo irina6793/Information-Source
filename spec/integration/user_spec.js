@@ -2,6 +2,7 @@ const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/users/";
 const User = require("../../src/db/models").User;
+const Wiki = require("../../src/db/models").Wiki;
 const sequelize = require("../../src/db/models/index").sequelize;
 
 describe("routes : user", () => {
@@ -34,7 +35,8 @@ describe("routes : user", () => {
         form: {
           username: "irina",
           email: "irina67@yahoo.com",
-          password: "hello"
+          password: "hello",
+          role: 0
         }
       };
       request.post(options, (err, res, body) => {
@@ -80,6 +82,35 @@ describe("routes : user", () => {
       request.get(`${base}sign_in`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("Sign In");
+        done();
+      });
+    });
+  });
+
+  describe("GET /users/:id", () => {
+    beforeEach(done => {
+      User.create({
+        username: "Coder",
+        email: "dasha@gmail.com",
+        password: "tweet",
+        role: 0
+      }).then(user => {
+        this.user = user;
+        Wiki.create({
+          title: "Tech for the future",
+          body: "Tech is the new oil",
+          private: false,
+          userId: this.user.id
+        }).then(wiki => {
+          this.wiki = wiki;
+          done();
+        });
+      });
+    });
+
+    it("should present a list of all the wikis created by a user", done => {
+      request.get(`${base}${this.user.id}`, (err, res, body) => {
+        expect(body).toContain("Tech is the new oil");
         done();
       });
     });
