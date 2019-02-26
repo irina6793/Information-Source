@@ -302,6 +302,7 @@ describe("POST /wikis/:id/destroy", () => {
              });
          });
        });
+     });
 
 it("should render a view with the selected wiki", (done) => {
       request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
@@ -312,22 +313,49 @@ it("should render a view with the selected wiki", (done) => {
        });
   });
 
-
-
-
-
-
-
+describe("POST /wikis/create", () => {
       beforeEach((done) => {
-        request.get({
-          url: "http://localhost:3000/auth/fake",
-          form: {
-            role: "premium"
-          }
-        }, (err, res, body) => {
-            done();
+          User.create({
+            email: "irina@yahoo.com",
+            password: "job",
+            role: 1
+          })
+          .then((user) => {
+            request.get({
+              url: "http://localhost:3000/auth/fake",
+              form: {
+                userId: user.id,
+                role: user.role,
+                email: user.email
+              }
+            },
+            (err, res, body) => {
+              done();
+            });
+          });
         });
-      });
+
+it("should create a new wiki and redirect", (done) => {
+      const options = {
+            url: `${base}create`,
+            form: {
+              title: "Revise Wiki",
+              description: "There are a lot of them",
+              private: true,
+              userId: this.user.id
+            }
+          };
+      }
+
+
+
+
+
+
+
+
+
+
 
     describe("GET /wikis/:id", () => {
       it("should render a view with the selected wiki", (done) => {
