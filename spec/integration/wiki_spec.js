@@ -151,15 +151,37 @@ describe("POST /wikis/:id/destroy", () => {
     });
 
     describe("POST /wikis/:id/update", () => {
-      it("should update the wiki with the given values", done => {
+      beforeEach((done) => {
+          User.create({
+                email: "dasha95@gmail.com",
+                password: "smarty",
+                role: 0
+              })
+                .then((user) => {
+                  request.get({
+                    url: "http://localhost:3000/auth/fake",
+                    form: {
+                      userId: user.id,
+                      role: user.role,
+                      email: user.email
+                }
+              },
+                 (err, res, body) => {
+                    done();
+              });
+          });
+      });
+ it("should update the wiki", done => {
         request.post(
           {
             url: `${base}${this.wiki.id}/update`,
             form: {
               title: "Impeach Trump",
-              body: "There are a lot of them"
-            }
-          },
+              body: "There are a lot of them",
+              private: false,
+              userId: this.user.id
+        }
+      },
           (err, res, body) => {
             expect(err).toBeNull();
             Wiki.findOne({
@@ -168,28 +190,23 @@ describe("POST /wikis/:id/destroy", () => {
               expect(wiki.title).toBe("Impeach Trump");
               done();
             });
-          }
-        );
+          });
       });
-    });
-  }); //end context for admin user
+  }); //end member user
 
-  // context of standard user
+  // standard user
   describe("standard user performing CRUD actions for Wiki", () => {
     beforeEach(done => {
-      // before each suite in admin context
       User.create({
-        // mock authentication
         email: "dasha92@yahoo.com",
         password: "techy",
-        role: "standard" // mock authenticate as admin user
+        role: "standard"
       }).then(user => {
         request.get(
           {
-            // mock authentication
-            url: "http://localhost:3000/auth/fake",
+          url: "http://localhost:3000/auth/fake",
             form: {
-              role: user.role, // mock authenticate as admin user
+              role: user.role,
               userId: user.id,
               email: user.email
             }
@@ -260,10 +277,47 @@ describe("POST /wikis/:id/destroy", () => {
         });
       });
     });
-    //standard user end
+  }); //standard user end
 
-    //premium user
-    describe("user performing CRUD actions for Wiki", () => {
+//premium user
+    describe("premium user", () => {
+      describe("GET /wikis/new", () => {
+        beforeEach((done) => {
+          User.create({
+               email: "irina@yahoo.com",
+               password: "job",
+               role: 1
+          })
+          .then((user) => {
+                request.get({
+                  url: "http://localhost:3000/auth/fake",
+                     form: {
+                       userId: user.id,
+                       role: user.role,
+                       email: user.email
+                }
+             },
+               (err, res, body) => {
+                 done();
+             });
+         });
+       });
+
+it("should render a view with the selected wiki", (done) => {
+      request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
+              expect(err).toBeNull();
+             expect(body).toContain("Wikis");
+             done();
+           });
+       });
+  });
+
+
+
+
+
+
+
       beforeEach((done) => {
         request.get({
           url: "http://localhost:3000/auth/fake",
