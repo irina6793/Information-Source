@@ -19,21 +19,21 @@ module.exports = {
       });
   },
 
-  getUser(id, callback) {
-      User.findById(id)
-      .then((user) => {
-        if(!user) {
-          callback(404);
-        } else {
-          result["user"] = user;
-        })
-          .catch((err) => {
-            callback(err);
-        });
-      }),
+  getUser(id, callback){
+    User.findById(id)
+    .then((user) => {
+       if(!user) {
+        callback(404);
+      } else {
+        result["user"] = user;
+        callback(null);
+      })
+        .catch((err) => {
+          callback(err);
+       })
+     },
 
-
-  upgradeUser(req, callback) {
+    upgradeUser(req, callback) {
     return User.findById(req.params.id).then(user => {
       if (!user) {
         return callback("User not found");
