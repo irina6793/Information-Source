@@ -18,6 +18,17 @@
       </form>
     </div>
   </div>
+  <form action="/user/upgrade" method="POST">
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="pk_test_RFzd6YXmlyBK4mJABOWrDP7l"
+      data-amount="1500"
+      data-name="Demo Site"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>
     <% include ../static/partials/baseScripts.ejs %>
   </body>
   </html>
