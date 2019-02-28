@@ -76,12 +76,16 @@ module.exports = {
     });
   },
 
+  upgradeForm(req, res, next) {
+    res.render("user/upgrade");
+  },
+
   upgrade(req, res, next) {
     const token = req.body.stripeToken;
     userQueries.upgradeUser(req, (err, user) => {
       if (err || user == null) {
         req.flash("notice", "Something went wrong. Please try again.");
-        res.redirect(404, `/users/${req.params.id}`);
+        res.redirect(404, `/user/${req.params.id}`);
       } else {
         (async () => {
           const charge = await stripe.charges.create({
@@ -91,7 +95,7 @@ module.exports = {
             source: token
           });
         })();
-        res.redirect(302, `/users/${req.params.id}`);
+        res.redirect(302, `/user/${req.params.id}`);
       }
     });
   },
@@ -100,9 +104,9 @@ module.exports = {
     userQueries.downgradeUser(req, (err, user) => {
       if (err || user == null) {
         req.flash("notice", "Something went wrong. Please try again.");
-        res.redirect(404, `/users/${req.params.id}`);
+        res.redirect(404, `/user/${req.params.id}`);
       } else {
-        res.redirect(302, `/users/${req.params.id}`);
+        res.redirect(302, `/user/${req.params.id}`);
       }
     });
   }

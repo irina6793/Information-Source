@@ -87,7 +87,7 @@ describe("routes : user", () => {
     });
   });
 
-  describe("GET /users/:id", () => {
+  describe("GET /user/:id", () => {
     beforeEach(done => {
       User.create({
         username: "Coder",
@@ -111,6 +111,16 @@ describe("routes : user", () => {
     it("should present a list of all the wikis created by a user", done => {
       request.get(`${base}${this.user.id}`, (err, res, body) => {
         expect(body).toContain("Tech is the new oil");
+        done();
+      });
+    });
+  });
+
+  describe("GET /user/upgrade", () => {
+    it("should render a view with an upgrade form", done => {
+      request.get(`${base}upgrade`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Stripe Upgrade");
         done();
       });
     });
