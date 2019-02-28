@@ -19,21 +19,27 @@ module.exports = {
       });
   },
 
-  getUser(id, callback){
-    User.findById(id)
-    .then((user) => {
-       if(!user) {
+  getUser(id, callback) {
+    let result = {};
+    User.findById(id).then(user => {
+      if (!user) {
         callback(404);
       } else {
         result["user"] = user;
-        callback(null);
-      })
-        .catch((err) => {
-          callback(err);
-       })
-     },
+        Wiki.scope({ method: ["allWikisForUser", id] })
+          .all()
+          .then(wikis => {
+            result["wikis"] = wikis;
+            callback(null, result);
+          })
+          .catch(err => {
+            callback(err);
+          });
+      }
+    });
+  },
 
-    upgradeUser(req, callback) {
+  upgradeUser(req, callback) {
     return User.findById(req.params.id).then(user => {
       if (!user) {
         return callback("User not found");
