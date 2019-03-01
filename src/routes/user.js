@@ -7,9 +7,9 @@ router.post("/user/signup", userController.create);
 router.get("/user/sign_in", userController.signInForm);
 router.post("/user/sign_in", userController.signIn);
 router.get("/user/sign_out", userController.signOut);
-router.get("/user/:id", userController.show);
 router.get("/user/upgrade", userController.upgradeForm);
 router.post("/user/upgrade", userController.upgrade);
 router.post("/user/downgrade", userController.downgrade);
+router.get("/user/:id", userController.show);
 
 module.exports = router;

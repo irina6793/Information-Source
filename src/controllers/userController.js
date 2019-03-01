@@ -77,27 +77,37 @@ module.exports = {
   },
 
   upgradeForm(req, res, next) {
+    console.log("Showing upgrade form");
     res.render("user/upgrade");
+    console.log("Showed upgrade form");
   },
 
   upgrade(req, res, next) {
     const token = req.body.stripeToken;
+    console.log("controller is calling query to upgrade");
     userQueries.upgradeUser(req, (err, user) => {
       if (err || user == null) {
+        console.log("Error or user not found");
         req.flash("notice", "Something went wrong. Please try again.");
         res.redirect(404, `/user/${req.params.id}`);
       } else {
+        console.log("Making async call");
         (async () => {
+          console.log("Creating charge");
           const charge = await stripe.charges.create({
             amount: 1500,
             currency: "USD",
             description: "Blocipedia Upgrade",
             source: token
           });
+          console.log("Created charge");
         })();
+        console.log("Redirecting to user page");
         res.redirect(302, `/user/${req.params.id}`);
       }
+      console.log("Finished controller callback");
     });
+    console.log("Finished upgrade function");
   },
 
   downgrade(req, res, next) {
