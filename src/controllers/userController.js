@@ -103,7 +103,7 @@ module.exports = {
   },
 
   downgradeForm(req, res, next) {
-    res.render("user/upgrade");
+    res.render("user/downgrade");
   },
 
   downgrade(req, res, next) {
