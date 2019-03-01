@@ -46,7 +46,7 @@ module.exports = {
       }
       user
         .update({
-          role: 1
+          role: "premium"
         })
         .then(() => {
           callback(null, user);
@@ -64,7 +64,7 @@ module.exports = {
       }
       user
         .update({
-          role: 2
+          role: "standard"
         })
         .then(() => {
           callback(null, user);

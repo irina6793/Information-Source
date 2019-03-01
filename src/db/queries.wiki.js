@@ -64,5 +64,20 @@ module.exports = {
       .catch(err => {
         callback(err);
       });
+  },
+  privateToPublic(id) {
+    return Wiki.findAll()
+      .then(wikis => {
+        wikis.forEach(wiki => {
+          if (wiki.userId == id && wiki.private == true) {
+            wiki.update({
+              private: false
+            });
+          }
+        });
+      })
+      .catch(err => {
+        callback(err);
+      });
   }
 };
