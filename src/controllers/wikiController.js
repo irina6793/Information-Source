@@ -13,7 +13,7 @@ module.exports = {
   },
 
   new(req, res, next) {
-    console.log(req.body);
+    console.log(req.user);
     const authorized = new Authorizer(req.user).new();
     if (authorized) {
       res.render("wikis/new");

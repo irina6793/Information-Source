@@ -47,16 +47,20 @@ module.exports = {
   },
 
   signIn(req, res, next) {
-    passport.authenticate("local"),
-      (function(err, user, info) {
-        if (!user) {
-          req.flash("notice", "Sign in failed. Please try again.");
-          res.redirect("/user/sign_in");
-        } else {
+    passport.authenticate("local", function(err, user, info) {
+      if (!user) {
+        req.flash("notice", "Sign in failed. Please try again.");
+        res.redirect("/user/sign_in");
+      } else {
+        req.logIn(user, function(err) {
+          if (err) {
+            return next(err);
+          }
           req.flash("notice", "You've succesfully signed in!");
           res.redirect("/");
-        }
-      })(req, res, next);
+        });
+      }
+    })(req, res, next);
   },
 
   signOut(req, res, next) {
