@@ -110,6 +110,10 @@ module.exports = {
     console.log("Finished upgrade function");
   },
 
+  downgradeForm(req, res, next) {
+    res.render("user/upgrade");
+  },
+
   downgrade(req, res, next) {
     userQueries.downgradeUser(req, (err, user) => {
       if (err || user == null) {
