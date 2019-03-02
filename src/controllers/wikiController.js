@@ -64,16 +64,17 @@ module.exports = {
   },
 
   edit(req, res, next) {
-    const authorized = new Authorizer(req.user).edit();
-    if (authorized) {
-      wikiQueries.getWiki(req.params.id, (err, wiki) => {
-        if (err || wiki == null) {
-          res.redirect(404, "/");
-        } else {
-          res.render("wikis/edit", { wiki });
-        }
-      });
-    }
+    //  const authorized = new Authorizer(req.user).edit();
+
+    //if (authorized) {
+    wikiQueries.getWiki(req.params.id, (err, wiki) => {
+      if (err || wiki == null) {
+        res.redirect(404, "/");
+      } else {
+        res.render("wikis/edit", { wiki });
+      }
+    });
+    //  }
   },
 
   update(req, res, next) {
