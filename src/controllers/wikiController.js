@@ -24,7 +24,6 @@ module.exports = {
   },
 
   create(req, res, next) {
-    console.log(req.body);
     const authorized = new Authorizer(req.user).create();
     if (authorized) {
       let newWiki = {
