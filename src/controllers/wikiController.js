@@ -65,6 +65,7 @@ module.exports = {
 
   edit(req, res, next) {
     const authorized = new Authorizer(req.user).edit();
+    console.log(authorized);
     if (authorized) {
       wikiQueries.getWiki(req.params.id, (err, wiki) => {
         if (err || wiki == null) {
