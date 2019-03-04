@@ -9,10 +9,8 @@
          <% include ../static/partials/navbar.ejs %>
          <h1 class="display-4">Wiki Page</h1>
          <ul class="list-group">
-<!-- #1 -->
-        <% wikis.forEach((wiki) => { %>
-<!-- #2 -->
-          <li class="list-group-item">
+           <% wikis.forEach((wiki) => { %>
+         <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>
        <% }) %>
