@@ -6,7 +6,7 @@ const User = require("../../src/db/models").User;
 const Wiki = require("../../src/db/models").Wiki;
 const Collaborator = require("../../src/db/models").Collaborator;
 
-describe("routes : wikis", () => {
+describe("routes : collaborators", () => {
   beforeEach(done => {
     this.wiki;
     this.user;
