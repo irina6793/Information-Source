@@ -2,11 +2,10 @@ module.exports = class ApplicationPolicy {
   constructor(user, record) {
     this.user = user;
     this.record = record;
-    this.collaborator = collaborator;
   }
 
   _isCollaborator() {
-    return this.collaborator;
+    return true;
   }
 
   _isOwner() {
