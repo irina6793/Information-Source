@@ -47,19 +47,26 @@ module.exports = {
   },
 
   signIn(req, res, next) {
+    console.log("Signing in");
     passport.authenticate("local", function(err, user, info) {
+      console.log("sign in callback");
       if (!user) {
+        console.log("No user returned");
         req.flash("notice", "Sign in failed. Please try again.");
         res.redirect("/user/sign_in");
       } else {
+        console.log("Calling req.logIn");
         req.logIn(user, function(err) {
           if (err) {
+            console.log(err);
             return next(err);
           }
+          console.log("Successfully signed in");
           req.flash("notice", "You've succesfully signed in!");
           res.redirect("/");
         });
       }
+      console.log("end sign in callback");
     })(req, res, next);
   },
 

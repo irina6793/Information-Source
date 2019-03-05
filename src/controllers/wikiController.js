@@ -14,7 +14,6 @@ module.exports = {
   },
 
   new(req, res, next) {
-    console.log(req.user);
     const authorized = new Authorizer(req.user).new();
     if (authorized) {
       res.render("wikis/new");
@@ -66,7 +65,7 @@ module.exports = {
 
   edit(req, res, next) {
     const authorized = new Authorizer(req.user).edit();
-    console.log(authorized);
+    console.log(req.user);
     if (authorized) {
       wikiQueries.getWiki(req.params.id, (err, wiki) => {
         if (err || wiki == null) {
