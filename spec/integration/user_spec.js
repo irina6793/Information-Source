@@ -107,7 +107,6 @@ describe("routes : user", () => {
         });
       });
     });
-
     it("should present a list of all the wikis created by a user", done => {
       request.get(`${base}${this.user.id}`, (err, res, body) => {
         expect(body).toContain("Tech is the new oil");

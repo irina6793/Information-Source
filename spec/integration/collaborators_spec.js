@@ -57,7 +57,6 @@ describe("routes : collaborators", () => {
         });
       });
     });
-
     it("should not add a collaborator with invalid email", done => {
       User.create({
         email: "dasha@gmail.com",
@@ -65,14 +64,12 @@ describe("routes : collaborators", () => {
         role: 0
       }).then(collab => {
         this.collab = collab;
-
         const options = {
           url: `{base}/${this.wiki.id}/collaborators/add`,
           form: {
             email: "no"
           }
         };
-
         request.post(options, (err, res, body) => {
           expect(err.message).toContain("Validation error:");
           done();

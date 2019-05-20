@@ -3,13 +3,10 @@ const Wiki = require("../../src/db/models").Wiki;
 const User = require("../../src/db/models").User;
 
 describe("Wiki", () => {
-
-  beforeEach((done) => {
+   beforeEach((done) => {
        this.wiki = this.wiki;
        sequelize.sync({force: true}).then((res) => {
-
-        User.create({
-
+    User.create({
           email: "dasha@gmail.com",
           password: "new"
         }).then((user) => {
@@ -17,16 +14,16 @@ describe("Wiki", () => {
             title: "Expeditions to Mount Everest",
             body: "The adventures in the tallest mountain in the world",
           }),
-
-        }).then((wiki) => {
+       }).then((wiki) => {
               this.wiki = wiki;
               done();
           })
         })
       });
   });
-    describe("#create()", () => {
-        it("should create a wiki object with a title, and body", (done) => {
+
+describe("#create()", () => {
+    it("should create a wiki object with a title, and body", (done) => {
         Wiki.create({
           title: "Best parts of the adventure",
           body: "Awesomens",

@@ -57,7 +57,6 @@ describe("routes : wikis", () => {
         });
       });
     });
-
     it("should render a view with a new wiki form", done => {
       request.get(`${base}new`, (err, res, body) => {
         expect(err).toBeNull();
@@ -307,7 +306,6 @@ describe("routes : wikis", () => {
         });
       });
     });
-
     it("should render a view with the selected wiki", done => {
       request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
         expect(err).toBeNull();
@@ -339,7 +337,6 @@ describe("routes : wikis", () => {
         );
       });
     });
-
     it("should create a new wiki and redirect", done => {
       const options = {
         url: `${base}create`,
