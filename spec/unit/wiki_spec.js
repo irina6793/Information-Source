@@ -38,8 +38,8 @@ describe("#create()", () => {
     });
   });
 
-  describe("#setWiki()", () => {
-      it("should associate a wiki and a user together", (done) => {
+describe("#setWiki()", () => {
+   it("should associate a wiki and a user together", (done) => {
       Wiki.create({
        title: "Wiki 1",
        body: "1. The Wiki"
@@ -53,7 +53,7 @@ describe("#create()", () => {
     });
   });
 
-  describe("#getTopic()", () => {
+describe("#getTopic()", () => {
     it("should return the associated topic", (done) => {
       this.post.getTopic()
       .then((associatedTopic) => {
@@ -63,7 +63,7 @@ describe("#create()", () => {
     });
    });
 
-  describe("#setUser()", () => {
+describe("#setUser()", () => {
     it("should associate a post and a user together", (done) => {
       User.create({
         email: "ada@example.com",
@@ -80,7 +80,7 @@ describe("#create()", () => {
     });
   });
 
-  describe("#getUser()", () => {
+describe("#getUser()", () => {
     it("should return the associated topic", (done) => {
       this.post.getUser()
       .then((associatedUser) => {
@@ -89,30 +89,4 @@ describe("#create()", () => {
       });
     });
    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });

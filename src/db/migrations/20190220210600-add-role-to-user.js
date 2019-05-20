@@ -8,7 +8,6 @@ module.exports = {
       defaultValue: 0
     });
   },
-
   down: (queryInterface, Sequelize) => {
     return queryInterface.removeColumn("Users", "role");
   }

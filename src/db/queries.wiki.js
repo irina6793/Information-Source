@@ -65,6 +65,7 @@ module.exports = {
         callback(err);
       });
   },
+
   privateToPublic(id) {
     return Wiki.findAll()
       .then(wikis => {

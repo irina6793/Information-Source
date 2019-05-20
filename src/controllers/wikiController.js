@@ -12,7 +12,6 @@ module.exports = {
       }
     });
   },
-
   new(req, res, next) {
     const authorized = new Authorizer(req.user).new();
     if (authorized) {
@@ -22,7 +21,6 @@ module.exports = {
       res.redirect("/wikis");
     }
   },
-
   create(req, res, next) {
     const authorized = new Authorizer(req.user).create();
     if (authorized) {
@@ -40,19 +38,15 @@ module.exports = {
       });
     }
   },
-
   show(req, res, next) {
     wikiQueries.getWiki(req.params.id, (err, wiki) => {
       if (err || wiki == null) {
-        console.log(`No Wiki was found with id: ${req.params.id}`);
         res.redirect(404, "/wikis");
       } else {
-        console.log(`Success! Wiki was found with id: ${req.params.id}`);
         res.render("wikis/show", { wiki });
       }
     });
   },
-
   destroy(req, res, next) {
     wikiQueries.deleteWiki(req, (err, wiki) => {
       if (err || wiki == null) {
@@ -62,10 +56,8 @@ module.exports = {
       }
     });
   },
-
   edit(req, res, next) {
     const authorized = new Authorizer(req.user).edit();
-    console.log(req.user);
     if (authorized) {
       wikiQueries.getWiki(req.params.id, (err, wiki) => {
         if (err || wiki == null) {
@@ -76,7 +68,6 @@ module.exports = {
       });
     }
   },
-
   update(req, res, next) {
     wikiQueries.updateWiki(req, req.body, (err, wiki) => {
       if (err || wiki == null) {
@@ -86,7 +77,6 @@ module.exports = {
       }
     });
   },
-
   private(req, res, next) {
     wikiQueries.getAllWikis((err, wikis) => {
       if (err) {

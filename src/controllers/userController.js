@@ -10,7 +10,6 @@ module.exports = {
   signUp(req, res, next) {
     res.render("user/signup", { title: "Signup" });
   },
-
   create(req, res, next) {
     let newUser = {
       username: req.body.username,
@@ -41,11 +40,9 @@ module.exports = {
       }
     });
   },
-
   signInForm(req, res, next) {
     res.render("user/sign_in");
   },
-
   signIn(req, res, next) {
     console.log("Signing in");
     passport.authenticate("local", function(err, user, info) {
@@ -69,13 +66,11 @@ module.exports = {
       console.log("end sign in callback");
     })(req, res, next);
   },
-
   signOut(req, res, next) {
     req.logout();
     req.flash("notice", "You've successfully signed out!");
     res.redirect("/");
   },
-
   show(req, res, next) {
     userQueries.getUser(req.params.id, (err, user) => {
       if (err || user === undefined) {
@@ -86,11 +81,9 @@ module.exports = {
       }
     });
   },
-
   upgradeForm(req, res, next) {
     res.render("user/upgrade");
   },
-
   upgrade(req, res, next) {
     const token = req.body.stripeToken;
     userQueries.upgradeUser(req, (err, user) => {
@@ -112,11 +105,9 @@ module.exports = {
       }
     });
   },
-
   downgradeForm(req, res, next) {
     res.render("user/downgrade");
   },
-
   downgrade(req, res, next) {
     userQueries.downgradeUser(req, (err, user) => {
       if (err || user == null) {
