@@ -1,5 +1,5 @@
 {
-  "name": "blocipedia-node",
+  "name": "Information-Source",
   "version": "1.0.0",
   "description": "An application for users to look up information on favorite topics",
   "main": "index.js",
