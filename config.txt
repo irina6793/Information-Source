@@ -1,0 +1,4 @@
+=== irina6793-blocipedia-node Config Vars
+DATABASE_URL:               database_url
+HEROKU_POSTGRESQL_NAVY_URL: postgres://yqbjuiqrlnzbho:dc3f8745482a9e4c5b2358543b420b072b6aca9f4881ad70fa8fd6f4d082da62@ec2-54-221-198-156.compute-1.amazonaws.com:5432/du6eroucohugq
+process_env:                key

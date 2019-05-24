@@ -6,7 +6,7 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false,
-    "operatorsAliases": ""
+    "operatorsAliases": false
   },
   "test": {
     "username": "postgres",
@@ -15,17 +15,16 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false,
-    "operatorsAliases": ""
+    "operatorsAliases": false
   },
 
   "production": {
     "username": "root",
     "password": "tech",
-    "database": "database_production",
+    "database": "process.env.DATABASE_URL",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false,
-    "operatorsAliases": false,
-    "use_env_variable": "DATABASE_URL"
+    "operatorsAliases": false
   }
 }
